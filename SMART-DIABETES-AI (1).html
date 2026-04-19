@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>SMART DIABETES AI</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800;900&family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0F1923;--bg2:#162330;
+  --card:rgba(255,255,255,0.05);--cb:rgba(255,255,255,0.08);
+  --p:#0EA5A0;--pl:#14D4CD;--pd:rgba(14,165,160,0.12);--pg:rgba(14,165,160,0.25);
+  --a:#2DD4A8;--ad:rgba(45,212,168,0.12);
+  --t:#E8EDF2;--tm:rgba(180,200,220,0.55);--td:rgba(150,175,200,0.35);
+  --g:#34D399;--y:#FBBF24;--r:#F87171;
+  --gb:rgba(52,211,153,0.12);--yb:rgba(251,191,36,0.12);--rb:rgba(248,113,113,0.12);
+}
+body{background:var(--bg);min-height:100vh;display:flex;justify-content:center;align-items:flex-start;padding:30px 15px 50px;font-family:'DM Sans',sans-serif;-webkit-font-smoothing:antialiased}
+.shell{width:400px;min-height:860px;background:linear-gradient(180deg,var(--bg2),var(--bg));border-radius:48px;border:1px solid rgba(255,255,255,0.06);overflow:hidden;position:relative;box-shadow:0 40px 100px rgba(0,0,0,0.6);flex-shrink:0}
+.notch{width:130px;height:34px;background:#000;border-radius:0 0 22px 22px;margin:0 auto;position:relative;z-index:10}
+.bgm{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+.orb{position:absolute;border-radius:50%;filter:blur(90px)}
+.o1{width:260px;height:260px;background:radial-gradient(circle,rgba(14,165,160,0.1),transparent 70%);top:-60px;right:-60px;animation:fo 10s ease-in-out infinite}
+.o2{width:200px;height:200px;background:radial-gradient(circle,rgba(45,212,168,0.07),transparent 70%);bottom:200px;left:-60px;animation:fo 12s ease-in-out infinite reverse}
+@keyframes fo{0%,100%{transform:translateY(0)}50%{transform:translateY(-15px)}}
+.scr{padding:0 22px 44px;position:relative;z-index:1;overflow-y:auto;max-height:820px;scroll-behavior:smooth}
+.scr::-webkit-scrollbar{display:none}
+.pg{display:none;animation:fi .35s ease}.pg.act{display:block}
+@keyframes fi{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes si{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
+@keyframes bp{0%,100%{transform:scale(1);box-shadow:0 0 20px var(--pg)}50%{transform:scale(1.08);box-shadow:0 0 50px rgba(14,165,160,0.4)}}
+@keyframes db{0%,100%{transform:translateY(0);opacity:.3}50%{transform:translateY(-7px);opacity:1}}
+.hdr{display:flex;align-items:center;justify-content:space-between;padding:16px 0 10px}
+.lw{display:flex;align-items:center;gap:10px}
+.li{width:42px;height:42px;border-radius:13px;background:linear-gradient(135deg,var(--p),var(--a));display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 4px 16px var(--pg)}
+.ln{font-family:'Sora',sans-serif;font-weight:700;font-size:16px;color:var(--pl);letter-spacing:-0.3px}
+.lt{font-size:10px;color:var(--td);margin-top:-1px}
+.sp{font-size:11px;color:var(--tm);background:var(--card);border:1px solid var(--cb);padding:5px 12px;border-radius:20px}
+.lr{display:flex;gap:6px;padding:6px 0 4px}
+.lb{padding:5px 12px;border-radius:10px;border:1px solid var(--cb);background:var(--card);font-size:11px;font-weight:700;color:var(--tm);cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif;letter-spacing:.5px}
+.lb.act{border-color:rgba(14,165,160,0.5);background:var(--pd);color:var(--pl)}
+.pt{display:flex;gap:6px;padding:10px 0 22px}
+.ps{height:3px;flex:1;border-radius:2px;background:rgba(255,255,255,0.06);transition:all .5s}
+.ps.on{background:linear-gradient(90deg,var(--p),var(--a));box-shadow:0 0 10px var(--pg)}.ps.dn{background:rgba(14,165,160,0.3)}
+.pgt{font-family:'Sora',sans-serif;font-size:23px;font-weight:800;letter-spacing:-.5px;color:var(--t);margin-bottom:6px}
+.pgs{font-size:12px;color:var(--tm);margin-bottom:24px;line-height:1.6}
+.gc{background:var(--card);border:1px solid var(--cb);border-radius:18px;padding:16px;margin-bottom:12px}
+.fl{font-size:10px;font-weight:700;color:var(--tm);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:8px}
+.gi2{width:100%;padding:13px 15px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;color:var(--t);font-family:'DM Sans',sans-serif;font-size:15px;outline:none;transition:all .2s;-webkit-appearance:none}
+.gi2:focus{border-color:rgba(14,165,160,0.5);background:rgba(14,165,160,0.05);box-shadow:0 0 0 3px rgba(14,165,160,0.1)}
+.gi2::placeholder{color:var(--td)}.gi2 option{background:var(--bg2);color:var(--t)}
+.r2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.gr{display:flex;gap:10px}
+.gcd{flex:1;padding:14px 10px;border-radius:14px;border:1px solid var(--cb);background:var(--card);text-align:center;cursor:pointer;transition:all .25s;user-select:none}
+.gcd:hover{border-color:rgba(14,165,160,0.3);background:var(--pd)}
+.gcd.sel{border-color:rgba(14,165,160,0.5);background:var(--pd);box-shadow:0 0 0 3px rgba(14,165,160,0.1)}
+.gcd .gci{font-size:26px;margin-bottom:6px}.gcd .gct{font-size:12px;font-weight:600;color:var(--tm)}
+.bb{background:linear-gradient(135deg,var(--pd),var(--ad));border:1px solid rgba(14,165,160,0.2);border-radius:14px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;margin-top:14px}
+.bml{font-size:12px;color:var(--tm)}
+.bmv{font-family:'Sora',sans-serif;font-size:28px;font-weight:700;color:var(--pl)}
+.bmc{font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;margin-top:3px;display:inline-block}
+.bmc-n{background:var(--gb);color:var(--g);border:1px solid rgba(52,211,153,0.2)}
+.bmc-o{background:var(--yb);color:var(--y);border:1px solid rgba(251,191,36,0.2)}
+.bmc-ob{background:var(--rb);color:var(--r);border:1px solid rgba(248,113,113,0.2)}
+.ir{display:flex;gap:8px;flex-wrap:wrap}
+.ic{padding:8px 16px;border-radius:20px;border:1px solid var(--cb);background:var(--card);font-size:13px;font-weight:500;color:var(--tm);cursor:pointer;transition:all .2s;user-select:none}
+.ic:hover{border-color:rgba(14,165,160,0.3);background:var(--pd)}
+.ic.sel{border-color:rgba(14,165,160,0.5);background:var(--pd);color:var(--pl)}
+.qc{background:var(--card);border:1px solid var(--cb);border-radius:20px;padding:20px 18px 16px;animation:si .35s cubic-bezier(0.34,1.4,0.64,1)}
+.qb{display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:700;color:var(--pl);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;background:var(--pd);padding:4px 12px;border-radius:20px}
+.qt{font-size:15px;font-weight:600;color:var(--t);margin-bottom:6px;line-height:1.45}
+.qw{font-size:10px;color:var(--td);margin-bottom:16px;font-style:italic}
+.sv{text-align:center;font-size:24px;font-weight:700;color:var(--pl);font-family:'Sora',sans-serif;margin-bottom:10px}
+input[type=range]{-webkit-appearance:none;width:100%;height:5px;border-radius:3px;background:rgba(255,255,255,0.08);outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,var(--p),var(--a));box-shadow:0 0 12px var(--pg);cursor:pointer}
+input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;border:none;background:linear-gradient(135deg,var(--p),var(--a));box-shadow:0 0 12px var(--pg);cursor:pointer}
+.sl{display:flex;justify-content:space-between;font-size:10px;color:var(--td);margin-top:7px}
+.pr{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.pc{padding:12px 6px;border-radius:14px;border:1px solid var(--cb);background:var(--card);text-align:center;cursor:pointer;transition:all .2s;user-select:none}
+.pc:hover{border-color:rgba(14,165,160,0.3);background:var(--pd)}
+.pc.sel{border-color:rgba(14,165,160,0.5);background:var(--pd);box-shadow:0 0 0 3px rgba(14,165,160,0.08)}
+.pc .pci{font-size:22px;margin-bottom:5px}.pc .pct{font-size:10px;color:var(--tm);font-weight:500}
+.qpg{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.qds{display:flex;gap:6px}
+.qd{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.08);transition:all .3s}
+.qd.on{background:var(--p);box-shadow:0 0 8px var(--pg);width:22px;border-radius:4px}
+.qd.dn{background:rgba(14,165,160,0.4)}
+.qcn{font-size:12px;color:var(--td)}
+.bm{width:100%;padding:15px;background:linear-gradient(135deg,var(--p),var(--a));border:none;border-radius:14px;color:#fff;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;box-shadow:0 6px 24px var(--pg);margin-top:12px}
+.bm:hover{transform:translateY(-2px);box-shadow:0 10px 36px rgba(14,165,160,0.35)}.bm:active{transform:translateY(0)}.bm:disabled{opacity:.3;cursor:not-allowed;transform:none;box-shadow:none}
+.bg2{width:100%;padding:13px;background:0;border:1px solid rgba(255,255,255,0.08);border-radius:14px;color:var(--tm);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;transition:all .2s;margin-top:8px}
+.bg2:hover{border-color:rgba(255,255,255,0.15);color:var(--t)}
+.qnb{width:100%;padding:13px;background:var(--pd);border:1px solid rgba(14,165,160,0.25);border-radius:12px;color:var(--pl);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;margin-top:16px}
+.qnb:hover{background:rgba(14,165,160,0.18);border-color:rgba(14,165,160,0.4)}
+.eb{background:var(--rb);border:1px solid rgba(248,113,113,0.2);border-radius:12px;padding:12px 16px;font-size:12px;color:#fca5a5;margin-bottom:12px}
+.ath{display:flex;flex-direction:column;align-items:center;padding:70px 20px;gap:20px}
+.abr{width:72px;height:72px;border-radius:22px;background:linear-gradient(135deg,var(--p),var(--a));display:flex;align-items:center;justify-content:center;font-size:32px;box-shadow:0 0 40px var(--pg);animation:bp 1.5s ease-in-out infinite}
+.at1{font-size:16px;font-weight:700;color:var(--t);text-align:center;line-height:1.4}
+.at2{font-size:12px;color:var(--td);text-align:center}
+.dam{display:flex;gap:7px;margin-top:4px}
+.da{width:8px;height:8px;border-radius:50%;background:var(--p);animation:db 1.2s ease-in-out infinite}
+.da:nth-child(2){animation-delay:.2s}.da:nth-child(3){animation-delay:.4s}
+.rh{background:linear-gradient(135deg,var(--pd),var(--ad));border:1px solid rgba(14,165,160,0.15);border-radius:22px;padding:24px;margin-bottom:14px;position:relative;overflow:hidden}
+.rh::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 80% 15%,rgba(14,165,160,0.06),transparent 55%)}
+.rtg{font-size:10px;font-weight:700;color:var(--td);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;position:relative}
+.rn{font-family:'Sora',sans-serif;font-size:64px;font-weight:700;line-height:1;margin-bottom:8px;position:relative}
+.rl{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;padding:5px 16px;border-radius:20px;margin-bottom:20px;position:relative}
+.rl-l{background:var(--gb);color:var(--g);border:1px solid rgba(52,211,153,0.2)}
+.rl-m{background:var(--yb);color:var(--y);border:1px solid rgba(251,191,36,0.2)}
+.rl-h{background:var(--rb);color:var(--r);border:1px solid rgba(248,113,113,0.2)}
+.rbb{height:8px;border-radius:4px;background:rgba(255,255,255,0.06);overflow:hidden;margin-bottom:14px;position:relative}
+.rbf{height:100%;border-radius:4px;transition:width 2s cubic-bezier(0.34,1.4,0.64,1);width:0}
+.rm{display:flex;gap:14px;font-size:11px;color:var(--td);flex-wrap:wrap;position:relative}
+.rmi{display:flex;align-items:center;gap:4px}
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.fc{background:var(--card);border:1px solid var(--cb);border-radius:14px;padding:13px;text-align:center}
+.fi2{font-size:20px;margin-bottom:5px}.fn{font-size:10px;color:var(--td);margin-bottom:7px}.fbb{height:4px;border-radius:2px;background:rgba(255,255,255,0.06);overflow:hidden;margin-bottom:6px}.fbf{height:100%;border-radius:2px;transition:width 2.5s ease}.fs{font-size:13px;font-weight:700;color:var(--pl)}
+.av{background:var(--card);border:1px solid var(--cb);border-radius:18px;padding:18px;margin-bottom:14px}
+.vi{width:36px;height:36px;border-radius:11px;background:var(--pd);border:1px solid rgba(14,165,160,0.2);display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:12px}
+.vt{font-size:11px;font-weight:700;color:var(--td);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:10px}
+.vtx{font-size:13px;color:rgba(200,215,230,0.72);line-height:1.65}
+.ri{display:flex;align-items:flex-start;gap:11px;padding:12px 14px;background:var(--card);border:1px solid var(--cb);border-radius:14px;margin-bottom:8px}
+.ric{width:30px;height:30px;min-width:30px;border-radius:9px;background:var(--pd);display:flex;align-items:center;justify-content:center;font-size:15px;margin-top:1px}
+.rtx{font-size:12px;color:rgba(180,200,220,0.68);line-height:1.6}
+.wb{background:var(--yb);border:1px solid rgba(251,191,36,0.15);border-radius:14px;padding:13px 15px;font-size:11px;color:rgba(251,191,36,0.7);line-height:1.6;margin-bottom:16px}
+.sc{background:linear-gradient(135deg,rgba(45,212,168,0.08),rgba(14,165,160,0.06));border:1px solid rgba(45,212,168,0.15);border-radius:16px;padding:16px;margin-bottom:14px;text-align:center}
+.scn{font-family:'Sora',sans-serif;font-size:36px;font-weight:700;color:var(--a)}
+.scl{font-size:11px;color:var(--tm);margin-top:2px}
+.scnt{font-size:11px;color:var(--td);margin-top:8px;line-height:1.5}
+.sct{font-size:10px;font-weight:700;color:var(--td);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.bn{position:sticky;bottom:0;left:0;right:0;background:rgba(15,25,35,0.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid rgba(255,255,255,0.06);display:flex;z-index:100;padding:10px 0 14px}
+.nb{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;background:0;border:0;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:10px;font-weight:600;color:var(--td);letter-spacing:.5px;transition:all .2s;padding:4px 0}
+.nb.act{color:var(--pl)}.nb .ni{font-size:20px}.nb.act .ni{filter:drop-shadow(0 0 5px var(--pg))}
+/* Meal */
+.dt{display:flex;gap:5px;padding:4px 0 14px;overflow-x:auto;-webkit-overflow-scrolling:touch}.dt::-webkit-scrollbar{display:none}
+.dtb{padding:8px 14px;border-radius:12px;border:1px solid var(--cb);background:var(--card);font-size:12px;font-weight:600;color:var(--tm);cursor:pointer;transition:all .2s;white-space:nowrap;flex-shrink:0;font-family:'DM Sans',sans-serif}
+.dtb.act{border-color:rgba(14,165,160,0.5);background:var(--pd);color:var(--pl)}
+.mc2{background:var(--card);border:1px solid var(--cb);border-radius:16px;padding:14px;margin-bottom:10px;animation:fi .3s ease}
+.mtm{font-size:10px;font-weight:700;color:var(--pl);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.mit{font-size:13px;color:var(--tm);line-height:1.6}
+.rc{background:linear-gradient(135deg,var(--pd),var(--ad));border:1px solid rgba(14,165,160,0.15);border-radius:16px;padding:16px;margin-bottom:14px}
+.rui{display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--tm);line-height:1.5;padding:5px 0}
+.ruc{font-size:14px;min-width:18px}
+.tt{display:flex;gap:6px;margin-bottom:14px}
+.ttb{flex:1;padding:10px;border-radius:12px;border:1px solid var(--cb);background:var(--card);font-size:12px;font-weight:600;color:var(--tm);cursor:pointer;transition:all .2s;text-align:center;font-family:'DM Sans',sans-serif}
+.ttb.act{border-color:rgba(14,165,160,0.5);background:var(--pd);color:var(--pl)}
+.tn{background:var(--card);border:1px solid var(--cb);border-radius:12px;padding:12px 14px;font-size:11px;color:var(--tm);line-height:1.6;margin-bottom:14px}
+/* Info */
+.ifc{background:var(--card);border:1px solid var(--cb);border-radius:16px;padding:16px;margin-bottom:12px}
+.ift{font-family:'Sora',sans-serif;font-size:14px;font-weight:700;color:var(--t);margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.ifx{font-size:12px;color:var(--tm);line-height:1.65}
+.tg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.tmb{background:var(--card);border:1px solid var(--cb);border-radius:14px;padding:14px;text-align:center}
+.tmav{font-size:28px;margin-bottom:6px}.tmn{font-size:11px;font-weight:700;color:var(--t);margin-bottom:2px}.tmr{font-size:10px;color:var(--td)}
+.str{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.stc{background:var(--pd);border:1px solid rgba(14,165,160,0.15);border-radius:12px;padding:12px 8px;text-align:center}
+.stn{font-family:'Sora',sans-serif;font-size:20px;font-weight:700;color:var(--pl)}
+.stl{font-size:9px;color:var(--td);margin-top:2px;letter-spacing:.3px}
+@media(max-width:450px){body{padding:0}.shell{width:100%;min-height:100vh;border-radius:0;border:none}.scr{max-height:none;padding-bottom:80px}}
+</style>
+</head>
+<body>
+<div class="shell"><div class="notch"></div><div class="bgm"><div class="orb o1"></div><div class="orb o2"></div></div>
+<div class="scr">
+
+<!-- PG1: PROFILE -->
+<div class="pg act" id="pg1">
+  <div class="hdr"><div class="lw"><div class="li">🛡️</div><div><div class="ln">SMART DIABETES AI</div><div class="lt" id="t-tagline"></div></div></div><div class="sp">1 / 3</div></div>
+  <div class="lr"><button class="lb act" onclick="setLang('uz')">O'zbekcha</button><button class="lb" onclick="setLang('ru')">Русский</button><button class="lb" onclick="setLang('en')">English</button></div>
+  <div class="pt"><div class="ps on"></div><div class="ps"></div><div class="ps"></div></div>
+  <div class="pgt" id="t-p1t"></div><div class="pgs" id="t-p1s"></div>
+  <div class="gc"><div class="fl" id="t-ln"></div><input class="gi2" id="i-name" type="text" oninput="ck()"></div>
+  <div class="r2" style="margin-bottom:12px">
+    <div class="gc" style="margin-bottom:0"><div class="fl" id="t-la"></div><input class="gi2" id="i-age" type="number" min="10" max="100" oninput="ck()" style="padding:12px"></div>
+    <div class="gc" style="margin-bottom:0"><div class="fl" id="t-lw"></div><input class="gi2" id="i-wt" type="number" min="20" max="300" oninput="cBMI()" style="padding:12px"></div>
+  </div>
+  <div class="gc"><div class="fl" id="t-lh"></div><input class="gi2" id="i-ht" type="number" min="100" max="250" oninput="cBMI()">
+    <div class="bb" id="bmi-d" style="display:none"><div><div class="bml">BMI</div><div id="bmi-p" class="bmc bmc-n">Normal</div></div><div style="text-align:right"><div class="bmv" id="bmi-v">—</div><div style="font-size:10px;color:var(--td);margin-top:2px">kg/m²</div></div></div>
+  </div>
+  <div class="gc"><div class="fl" id="t-lg"></div><div class="gr">
+    <div class="gcd" id="gm" onclick="sG('m')"><div class="gci">👨</div><div class="gct" id="t-male"></div></div>
+    <div class="gcd" id="gf" onclick="sG('f')"><div class="gci">👩</div><div class="gct" id="t-female"></div></div>
+  </div></div>
+  <div class="gc"><div class="fl" id="t-li"></div><div class="ir">
+    <div class="ic" id="in" onclick="sI('n')" data-k="ih_none"></div>
+    <div class="ic" id="io" onclick="sI('o')" data-k="ih_one"></div>
+    <div class="ic" id="ib" onclick="sI('b')" data-k="ih_both"></div>
+  </div></div>
+  <button class="bm" id="b2" onclick="gP2()" disabled id2="t-bn1"></button>
+</div>
+
+<!-- PG2: SYMPTOMS -->
+<div class="pg" id="pg2">
+  <div class="hdr"><div class="lw"><div class="li">🧬</div><div><div class="ln">SMART DIABETES AI</div><div class="lt" id="t-ts"></div></div></div><div class="sp">2 / 3</div></div>
+  <div class="pt"><div class="ps dn"></div><div class="ps on"></div><div class="ps"></div></div>
+  <div class="pgt" id="t-p2t"></div><div class="pgs" id="t-p2s"></div>
+  <div class="qpg"><div class="qds" id="qdots"></div><div class="qcn" id="qcnt">1/6</div></div>
+  <div id="qcon"></div>
+  <div id="qerr" class="eb" style="display:none"></div>
+  <button class="bg2" onclick="sP('pg1')" id="t-bb"></button>
+</div>
+
+<!-- PG3: RESULT -->
+<div class="pg" id="pg3">
+  <div class="hdr"><div class="lw"><div class="li">🤖</div><div><div class="ln">SMART DIABETES AI</div><div class="lt" id="t-tr"></div></div></div><div class="sp">3 / 3</div></div>
+  <div class="pt"><div class="ps dn"></div><div class="ps dn"></div><div class="ps on"></div></div>
+  <div id="alv" class="ath"><div class="abr">🧠</div><div class="at1" id="t-al1"></div><div class="at2" id="t-al2"></div><div class="dam"><div class="da"></div><div class="da"></div><div class="da"></div></div></div>
+  <div id="arv" style="display:none">
+    <div class="pgt" id="t-rt"></div><div class="pgs" id="t-rs"></div>
+    <div class="rh"><div class="rtg" id="t-rtg"></div><div class="rn" id="rpct">—</div><div class="rl" id="rpill">—</div><div class="rbb"><div class="rbf" id="rbar"></div></div><div class="rm" id="rmeta"></div></div>
+    <div class="fr" id="frow"></div>
+    <div class="av"><div class="vi">🤖</div><div class="vt" id="t-avt"></div><div class="vtx" id="avtx"></div></div>
+    <div id="rlist"></div>
+    <div class="sc"><div class="sct" id="t-dst"></div><div class="scn" id="snum">8 000</div><div class="scl" id="t-spd"></div><div class="scnt" id="snote"></div></div>
+    <div class="wb" id="t-warn"></div>
+    <button class="bm" onclick="rst()" id="t-br"></button>
+    <button class="bg2" onclick="nv('pg-meal')" id="t-bm"></button>
+  </div>
+</div>
+
+<!-- PG: MEAL -->
+<div class="pg" id="pg-meal">
+  <div class="hdr"><div class="lw"><div class="li" style="background:linear-gradient(135deg,var(--a),var(--p))">🥗</div><div><div class="ln" id="t-ml"></div><div class="lt" id="t-mt"></div></div></div></div>
+  <div class="pgt" id="t-mtt"></div><div class="pgs" id="t-mts"></div>
+  <div class="tt"><button class="ttb act" id="tp1" onclick="sDT(1)">1-tip</button><button class="ttb" id="tp2" onclick="sDT(2)">2-tip</button></div>
+  <div class="tn" id="tnb"></div>
+  <div class="rc" id="rcard"></div>
+  <div class="sc"><div class="sct" id="t-dst2"></div><div class="scn">8 000 – 10 000</div><div class="scl" id="t-spd2"></div><div class="scnt" id="t-sgn"></div></div>
+  <div class="dt" id="dtabs"></div>
+  <div id="mcon"></div>
+</div>
+
+<!-- PG: INFO -->
+<div class="pg" id="pg-info">
+  <div class="hdr"><div class="lw"><div class="li">ℹ️</div><div><div class="ln">SMART DIABETES AI</div><div class="lt" id="t-ti"></div></div></div></div>
+  <div class="pgt" id="t-it"></div><div class="pgs" id="t-is"></div>
+  <div class="str">
+    <div class="stc"><div class="stn">AI</div><div class="stl" id="t-s1"></div></div>
+    <div class="stc"><div class="stn">24/7</div><div class="stl" id="t-s2"></div></div>
+    <div class="stc"><div class="stn">50+</div><div class="stl" id="t-s3"></div></div>
+  </div>
+  <div id="icards"></div>
+  <div class="ifc"><div class="ift" id="t-tmt"></div><div class="ifx" id="t-tmd"></div>
+    <div class="tg">
+      <div class="tmb"><div class="tmav">👨‍💼</div><div class="tmn">Abdisamatov Mehriddin</div><div class="tmr" id="t-rl"></div></div>
+      <div class="tmb"><div class="tmav">👩‍💻</div><div class="tmn">Abdug'aniyeva Gulhayo</div><div class="tmr" id="t-rd1"></div></div>
+      <div class="tmb"><div class="tmav">👩‍💻</div><div class="tmn">Sharipova Feruza</div><div class="tmr" id="t-rd2"></div></div>
+      <div class="tmb"><div class="tmav">👨‍🔬</div><div class="tmn">Sheraliyev Javohir</div><div class="tmr" id="t-ra"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- NAV -->
+<div class="bn">
+  <button class="nb act" id="nh" onclick="nv('pg1')"><span class="ni">🛡️</span><span id="t-n1"></span></button>
+  <button class="nb" id="nm" onclick="nv('pg-meal')"><span class="ni">🥗</span><span id="t-n2"></span></button>
+  <button class="nb" id="ni2" onclick="nv('pg-info')"><span class="ni">ℹ️</span><span id="t-n3"></span></button>
+</div>
+
+</div></div>
+
+<script>
+const T={
+uz:{tagline:"AI asosida diabet nazorati",p1t:"Profil Ma'lumotlari",p1s:"Aniq natija uchun barcha maydonlarni to'ldiring. BMI avtomatik hisoblanadi.",ln:"ISM FAMILIYA",la:"YOSH",lw:"VAZN (KG)",lh:"BO'Y (SM)",lg:"JINS",li:"OILAVIY DIABET TARIXI",pn:"Masalan: Jasur Toshmatov",pa:"Yosh",pw:"kg",ph:"Masalan: 172",male:"Erkak",female:"Ayol",ih_none:"Yo'q",ih_one:"Bir ota-ona",ih_both:"Ikkalasi ham",bn1:"Klinik Tekshiruvga O'tish →",ts:"Simptomlarni baholash",p2t:"Klinik Baholash",p2s:"AI har bir simptomni alohida koeffitsient bilan tahlil qiladi",qe:"⚠️ Iltimos, javob bering.",bb:"← Orqaga",tr:"AI tashxis natijasi",al1:"AI Ma'lumotlaringizni<br>Tahlil Qilmoqda",al2:"Weighted Risk Scoring...",rt:"Natija Tayyor",rs:"AI bashorati — tibbiy tashxis emas",rtg:"⚠ QANDLI DIABET XAVFI",avt:"AI XULOSASI",dst:"🚶 KUNLIK QADAM",spd:"qadam / kuniga",warn:'⚠️ <strong>Muhim:</strong> Bu natija faqat orientir. Aniq tashxis uchun endokrinologga murojaat qiling.',br:"🔄 Qaytadan Tekshirish",bm_:"🥗 Ovqatlanish Rejimi",ml:"Ovqatlanish Rejimi",mt:"Diabet uchun haftalik menyu",mtt:"Haftalik Menyu",mts:"1-tip va 2-tip diabet uchun ovqatlanish rejimi",t1n:"🩺 <strong>1-tip:</strong> Insulin dozasiga qarab non birligi hisoblanadi. Har bir ovqat oldin insulin miqdorini shifokor bilan kelishing.",t2n:"⚖️ <strong>2-tip:</strong> Vazn nazorati muhim. Kaloriya miqdoriga e'tibor bering.",rul:"📋 UMUMIY QOIDALAR",rules:["Kuniga 5–6 mahal oz-ozdan ovqatlaning","Shakar, tort, gazli ichimlik yo'q","Oq non o'rniga qora non / kepakli non","Tuz va yog' kamroq ishlating","Ko'proq suv iching (1.5–2 litr)","Ovqatdan keyin 10-15 daqiqa yuring"],bf:"🌅 NONUSHTA",sn:"🍎 TAMADDI",lu:"🍲 TUSHLIK",dn:"🌙 KECHKI OVQAT",dy:"kun",sgn:"Ertalab yoki kechqurun 30 daqiqa yurish qon qandini barqaror ushlab turadi.",n1:"Tekshiruv",n2:"Menyu",n3:"Ma'lumot",ti:"Loyiha haqida",it:"Loyiha Haqida",is:"Diabet ustidan nazorat — sog'lom hayot garovi",s1:"ASOSIDA",s2:"MONITORING",s3:"TIBBIY MEZON",ic:[{i:"🔴",t:"Muammo",x:"Qandli diabet ko'pincha kech aniqlanadi. Natijada yurak, ko'z va buyrak asoratlari xavfi oshadi."},{i:"📊",t:"Dolzarblik",x:"O'zbekistonda diabet ortib bormoqda. Raqamli tibbiyot va AI ga ehtiyoj kuchli."},{i:"💡",t:"Yechim",x:"SMART DIABETES AI real vaqtda sog'likni kuzatadi, xavfni aniqlaydi va shaxsiy tavsiyalar beradi."},{i:"🎯",t:"Maqsad",x:"Diabetni erta aniqlash, doimiy nazorat va asoratlar xavfini kamaytirish."}],tmt:"👥 Jamoa",tmd:"Jamoa 4 a'zodan iborat.",rl:"Loyiha rahbari",rd:"Dasturchi",ra:"Data & AI",
+q1b:"🚻 TUNGI HOLAT",q1t:"Kechasi necha marta hojatxonaga turasiz?",q1l:["0 (kam)","5 (o'rta)","10+ (ko'p)"],q1u:"marta",
+q2b:"💧 KUNLIK SUV",q2t:"Kuniga qancha suv ichasiz?",q2o:["1-2 litr","3-4 litr","5-6 litr","7+ litr"],
+q3b:"👁️ KO'RISH",q3t:"Ko'rishingiz qanchalik xiralashgan?",q3l:["0 (a'lo)","5 (o'rta)","10 (xira)"],q3u:"ball",
+q4b:"⚡ CHARCHOQ",q4t:"Kunlik charchoq darajangiz?",q4l:["0 (tetik)","5","10 (holsiz)"],q4u:"ball",
+q5b:"🩹 YARA BITISHI",q5t:"Mayda yaralar qanchalik tez bitadi?",q5o:["Juda tez","O'rta","Sekin","Juda sekin"],
+q6b:"🚶 KUNLIK QADAM",q6t:"Kuniga taxminan necha qadam yurasiz?",q6o:["< 3 000","3-5 000","5-8 000","8 000+"],
+qaw:"🧮 AI koeffitsienti:",qai:"— riskga ta'siri",qnx:"Keyingi →",qan:"🤖 AI Tahlil",
+ll:"✓ Past Xavf",lm:"⚠ O'rta Xavf",lh:"🔴 Yuqori Xavf",fb:"BMI",fi:"Irsiylik",fa:"Yosh",fs:"Simptomlar",rct:"📋 TAVSIYALAR",
+vh:n=>`${n}, diabet xavfi YUQORI. Zudlik bilan endokrinologga boring va HbA1c topshiring.`,
+vm:n=>`${n}, xavf O'RTA. Profilaktik choralarga e'tibor qarating va 6 oyda bir shifokorga boring.`,
+vl:n=>`${n}, xavf PAST. Sog'lom turmush tarzini saqlang, yiliga bir marta tekshiruv o'tkazing.`,
+rh2:["HbA1c tahlilini zudlik bilan topshiring","Endokrinolog bilan maslahat qiling","Shakar va un mahsulotlarini kamaytiring","Kuniga 30 daqiqa mashq qiling"],
+rm2:["Yiliga bir marta glyukozani tekshiring","Meva-sabzavotli ovqatlanishga o'ting","Harakatli bo'ling","Stressni boshqaring"],
+rl2:["Sog'lom turmush tarzini davom ettiring","Muntazam mashq qiling","To'g'ri ovqatlaning","Yillik tekshiruvdan o'ting"],
+sl2:"Kuniga kamida 8 000 qadam yuring.",sm2:"Kuniga 8 000–10 000 qadam. Ovqatdan keyin 15 daqiqa sayr.",sh2:"Kuniga 10 000+ qadam. Bu insulinga sezuvchanlikni yaxshilaydi.",
+bmu:"Kam vaznli",bmo:"Ortiqcha vazn",bmob:"Semirish",def:"Foydalanuvchi"
+},
+ru:{tagline:"Контроль диабета на основе ИИ",p1t:"Данные Профиля",p1s:"Заполните все поля для точного результата. ИМТ рассчитывается автоматически.",ln:"ИМЯ ФАМИЛИЯ",la:"ВОЗРАСТ",lw:"ВЕС (КГ)",lh:"РОСТ (СМ)",lg:"ПОЛ",li:"СЕМЕЙНАЯ ИСТОРИЯ ДИАБЕТА",pn:"Например: Иван Петров",pa:"Возраст",pw:"кг",ph:"Например: 172",male:"Мужчина",female:"Женщина",ih_none:"Нет",ih_one:"Один родитель",ih_both:"Оба",bn1:"Перейти к Обследованию →",ts:"Оценка симптомов",p2t:"Клиническая Оценка",p2s:"ИИ анализирует каждый симптом с весовым коэффициентом",qe:"⚠️ Ответьте на вопрос.",bb:"← Назад",tr:"Результат ИИ",al1:"ИИ Анализирует<br>Ваши Данные",al2:"Алгоритм оценки рисков...",rt:"Результат Готов",rs:"Прогноз ИИ — не медицинский диагноз",rtg:"⚠ УРОВЕНЬ РИСКА ДИАБЕТА",avt:"ЗАКЛЮЧЕНИЕ ИИ",dst:"🚶 РЕКОМЕНДАЦИЯ ПО ШАГАМ",spd:"шагов / день",warn:'⚠️ <strong>Важно:</strong> Результат ориентировочный. Обратитесь к эндокринологу.',br:"🔄 Пройти Заново",bm_:"🥗 Режим Питания",ml:"Режим Питания",mt:"Недельное меню при диабете",mtt:"Недельное Меню",mts:"Подходит для диабета 1-го и 2-го типа",t1n:"🩺 <strong>1-й тип:</strong> Хлебные единицы по дозе инсулина. Согласуйте с врачом.",t2n:"⚖️ <strong>2-й тип:</strong> Контроль веса важен. Следите за калорийностью.",rul:"📋 ОБЩИЕ ПРАВИЛА",rules:["5–6 приёмов пищи понемногу","Без сахара, тортов, газировки","Чёрный/отрубной хлеб вместо белого","Меньше соли и жира","Больше воды (1.5–2 л)","10-15 мин ходьбы после еды"],bf:"🌅 ЗАВТРАК",sn:"🍎 ПЕРЕКУС",lu:"🍲 ОБЕД",dn:"🌙 УЖИН",dy:"день",sgn:"30 минут ходьбы утром или вечером стабилизируют сахар в крови.",n1:"Тест",n2:"Меню",n3:"Инфо",ti:"О проекте",it:"О Проекте",is:"Контроль диабета — залог здоровья",s1:"НА ОСНОВЕ",s2:"МОНИТОРИНГ",s3:"МЕД. КРИТЕРИЕВ",ic:[{i:"🔴",t:"Проблема",x:"Диабет часто выявляется поздно. Растёт риск осложнений."},{i:"📊",t:"Актуальность",x:"Заболеваемость диабетом в Узбекистане растёт. Нужны ИИ-технологии."},{i:"💡",t:"Решение",x:"SMART DIABETES AI мониторит здоровье в реальном времени и даёт рекомендации."},{i:"🎯",t:"Цель",x:"Раннее выявление, постоянный контроль, снижение рисков."}],tmt:"👥 Команда",tmd:"Команда из 4 человек.",rl:"Руководитель",rd:"Разработчик",ra:"Data & AI",
+q1b:"🚻 НОЧНОЙ РЕЖИМ",q1t:"Сколько раз за ночь вы встаёте в туалет?",q1l:["0 (редко)","5 (средне)","10+ (часто)"],q1u:"раз",
+q2b:"💧 ВОДА В ДЕНЬ",q2t:"Сколько воды пьёте в день?",q2o:["1-2 л","3-4 л","5-6 л","7+ л"],
+q3b:"👁️ ЗРЕНИЕ",q3t:"Насколько ваше зрение затуманено?",q3l:["0 (ясно)","5 (средне)","10 (мутно)"],q3u:"балл",
+q4b:"⚡ УСТАЛОСТЬ",q4t:"Уровень ежедневной усталости?",q4l:["0 (бодрый)","5","10 (обессилен)"],q4u:"балл",
+q5b:"🩹 ЗАЖИВЛЕНИЕ",q5t:"Как быстро заживают ранки?",q5o:["Очень быстро","Средне","Медленно","Очень медленно"],
+q6b:"🚶 ШАГИ В ДЕНЬ",q6t:"Сколько примерно шагов делаете в день?",q6o:["< 3 000","3-5 000","5-8 000","8 000+"],
+qaw:"🧮 Вес ИИ:",qai:"— влияние на риск",qnx:"Далее →",qan:"🤖 ИИ Анализ",
+ll:"✓ Низкий",lm:"⚠ Средний",lh:"🔴 Высокий",fb:"ИМТ",fi:"Наследств.",fa:"Возраст",fs:"Симптомы",rct:"📋 РЕКОМЕНДАЦИИ",
+vh:n=>`${n}, риск ВЫСОКИЙ. Срочно к эндокринологу, сдайте HbA1c.`,
+vm:n=>`${n}, риск СРЕДНИЙ. Уделите внимание профилактике.`,
+vl:n=>`${n}, риск НИЗКИЙ. Продолжайте здоровый образ жизни.`,
+rh2:["Срочно сдайте HbA1c","К эндокринологу","Сократите сахар и мучное","30 мин спорта в день"],
+rm2:["Глюкоза раз в год","Фрукты и овощи","Будьте активны","Управляйте стрессом"],
+rl2:["Здоровый образ жизни","Регулярный спорт","Правильное питание","Ежегодный осмотр"],
+sl2:"Минимум 8 000 шагов в день.",sm2:"8 000–10 000 шагов. 15 мин после еды.",sh2:"10 000+ шагов. Улучшает чувствительность к инсулину.",
+bmu:"Недовес",bmo:"Избыточный вес",bmob:"Ожирение",def:"Пользователь"
+},
+en:{tagline:"AI-powered diabetes monitoring",p1t:"Profile Details",p1s:"Fill in all fields for accurate results. BMI is auto-calculated.",ln:"FULL NAME",la:"AGE",lw:"WEIGHT (KG)",lh:"HEIGHT (CM)",lg:"GENDER",li:"FAMILY DIABETES HISTORY",pn:"e.g. John Smith",pa:"Age",pw:"kg",ph:"e.g. 172",male:"Male",female:"Female",ih_none:"None",ih_one:"One parent",ih_both:"Both",bn1:"Proceed to Assessment →",ts:"Symptom assessment",p2t:"Clinical Assessment",p2s:"AI analyzes each symptom with a weight coefficient",qe:"⚠️ Please answer.",bb:"← Back",tr:"AI diagnosis result",al1:"AI Is Analyzing<br>Your Data",al2:"Weighted Risk Scoring...",rt:"Result Ready",rs:"AI prediction — not a medical diagnosis",rtg:"⚠ DIABETES RISK LEVEL",avt:"AI CONCLUSION",dst:"🚶 DAILY STEPS",spd:"steps / day",warn:'⚠️ <strong>Important:</strong> This is guidance only. Consult an endocrinologist.',br:"🔄 Test Again",bm_:"🥗 View Meal Plan",ml:"Meal Plan",mt:"Weekly diabetes menu",mtt:"Weekly Menu",mts:"Suitable for Type 1 and Type 2 diabetes",t1n:"🩺 <strong>Type 1:</strong> Bread units calculated by insulin dose. Coordinate with your doctor.",t2n:"⚖️ <strong>Type 2:</strong> Weight control matters. Watch calorie intake.",rul:"📋 GENERAL RULES",rules:["Eat 5–6 small meals daily","No sugar, cakes, or soda","Dark/bran bread instead of white","Less salt and fat","More water (1.5–2 liters)","Walk 10-15 min after meals"],bf:"🌅 BREAKFAST",sn:"🍎 SNACK",lu:"🍲 LUNCH",dn:"🌙 DINNER",dy:"Day",sgn:"A 30-min walk morning or evening stabilizes blood sugar.",n1:"Test",n2:"Menu",n3:"Info",ti:"About project",it:"About the Project",is:"Diabetes control — the key to health",s1:"AI-BASED",s2:"MONITORING",s3:"MED. CRITERIA",ic:[{i:"🔴",t:"Problem",x:"Diabetes is often detected late, raising complication risks."},{i:"📊",t:"Relevance",x:"Diabetes rates are rising. Digital medicine and AI are needed."},{i:"💡",t:"Solution",x:"SMART DIABETES AI monitors health in real time with personalized advice."},{i:"🎯",t:"Goal",x:"Early detection, continuous monitoring, reduced complication risk."}],tmt:"👥 Team",tmd:"A team of 4 members.",rl:"Project Lead",rd:"Developer",ra:"Data & AI",
+q1b:"🚻 NIGHTTIME",q1t:"How many times do you get up at night to use the restroom?",q1l:["0 (rarely)","5 (moderate)","10+ (often)"],q1u:"times",
+q2b:"💧 DAILY WATER",q2t:"How much water do you drink daily?",q2o:["1-2 L","3-4 L","5-6 L","7+ L"],
+q3b:"👁️ VISION",q3t:"How blurry is your vision?",q3l:["0 (clear)","5 (moderate)","10 (blurry)"],q3u:"pts",
+q4b:"⚡ FATIGUE",q4t:"Your daily fatigue level?",q4l:["0 (energetic)","5","10 (exhausted)"],q4u:"pts",
+q5b:"🩹 HEALING",q5t:"How fast do minor cuts heal?",q5o:["Very fast","Moderate","Slow","Very slow"],
+q6b:"🚶 DAILY STEPS",q6t:"Roughly how many steps do you walk daily?",q6o:["< 3,000","3-5,000","5-8,000","8,000+"],
+qaw:"🧮 AI weight:",qai:"— risk impact",qnx:"Next →",qan:"🤖 AI Analysis",
+ll:"✓ Low Risk",lm:"⚠ Moderate",lh:"🔴 High Risk",fb:"BMI",fi:"Heredity",fa:"Age",fs:"Symptoms",rct:"📋 RECOMMENDATIONS",
+vh:n=>`${n}, diabetes risk is HIGH. See an endocrinologist urgently.`,
+vm:n=>`${n}, risk is MODERATE. Focus on prevention.`,
+vl:n=>`${n}, risk is LOW. Maintain a healthy lifestyle.`,
+rh2:["Get HbA1c test urgently","Consult endocrinologist","Cut sugar and flour","30 min cardio daily"],
+rm2:["Annual glucose check","More fruits & vegetables","Stay active","Manage stress"],
+rl2:["Continue healthy lifestyle","Regular exercise","Balanced diet","Annual checkup"],
+sl2:"Walk at least 8,000 steps daily.",sm2:"8,000–10,000 steps. 15 min walk after meals.",sh2:"10,000+ steps. Improves insulin sensitivity.",
+bmu:"Underweight",bmo:"Overweight",bmob:"Obese",def:"User"
+}};
+
+const ML=[
+  {b:"Suli bo'tqasi, qaynatilgan tuxum, choy",s:"Olma",l:"Sabzavotli sho'rva, tovuq go'shti, salat",d:"Baliq, grechka, bodring"},
+  {b:"Tvorog, qora non, choy",s:"Nok",l:"Mol go'shtli dimlama, karam salat",d:"Tovuq filesi, sabzavot"},
+  {b:"Grechka bo'tqasi, tuxum",s:"Yong'oq (5 dona)",l:"Moshxo'rda, salat",d:"Baliq, brokkoli"},
+  {b:"Qatiq, kepakli non",s:"Apelsin",l:"Sho'rva, qaynatilgan go'sht",d:"Tvorog, bodring"},
+  {b:"Omlet, pomidor",s:"Olma",l:"Tovuq sho'rva, grechka",d:"Baliq, karam salat"},
+  {b:"Suli bo'tqasi",s:"Nok",l:"Dimlangan sabzavot, mol go'shti",d:"Tuxum, salat"},
+  {b:"Tvorog, choy",s:"Yong'oq",l:"Sabzavotli sho'rva, tovuq",d:"Baliq yoki tovuq, salat"}
+];
+
+let lang='uz',dtp=1,cQ=0;
+const S={n:'',a:0,w:0,h:0,g:'',i:'',ans:{},bmi:0};
+const QS=[
+  {id:'ur',wt:.18,tp:'s',mn:0,mx:10,b:'q1b',t:'q1t',l:'q1l',u:'q1u'},
+  {id:'th',wt:.15,tp:'p',b:'q2b',t:'q2t',o:'q2o',ic:['🥛','🍶','🌊','🏊']},
+  {id:'vi',wt:.12,tp:'s',mn:0,mx:10,b:'q3b',t:'q3t',l:'q3l',u:'q3u'},
+  {id:'fa',wt:.14,tp:'s',mn:0,mx:10,b:'q4b',t:'q4t',l:'q4l',u:'q4u'},
+  {id:'he',wt:.16,tp:'p',b:'q5b',t:'q5t',o:'q5o',ic:['⚡','🕐','📅','❌']},
+  {id:'st',wt:.10,tp:'p',b:'q6b',t:'q6t',o:'q6o',ic:['🦥','🚶','🏃','🏃‍♂️']}
+];
+
+function g(k){return T[lang][k]||k}
+function setLang(l){lang=l;document.querySelectorAll('.lb').forEach(b=>b.classList.remove('act'));document.querySelectorAll('.lb').forEach(b=>{if((l==='uz'&&b.textContent.includes("O'z"))||(l==='ru'&&b.textContent.includes('Рус'))||(l==='en'&&b.textContent.includes('Eng')))b.classList.add('act')});aT()}
+
+function aT(){
+  const m={tagline:'t-tagline',p1t:'t-p1t',p1s:'t-p1s',ln:'t-ln',la:'t-la',lw:'t-lw',lh:'t-lh',lg:'t-lg',li:'t-li',male:'t-male',female:'t-female',ts:'t-ts',p2t:'t-p2t',p2s:'t-p2s',tr:'t-tr',al1:'t-al1',al2:'t-al2',rt:'t-rt',rs:'t-rs',rtg:'t-rtg',avt:'t-avt',dst:'t-dst',spd:'t-spd',n1:'t-n1',n2:'t-n2',n3:'t-n3',ti:'t-ti',it:'t-it',is:'t-is',s1:'t-s1',s2:'t-s2',s3:'t-s3',tmt:'t-tmt',tmd:'t-tmd',ml:'t-ml',mt:'t-mt',mtt:'t-mtt',mts:'t-mts',dst:'t-dst2',spd:'t-spd2',sgn:'t-sgn'};
+  for(const[k,id]of Object.entries(m)){const el=document.getElementById(id);if(el&&g(k))el.innerHTML=g(k)}
+  // Special
+  const ids2={bn1:'b2',bb:'t-bb',br:'t-br',warn:'t-warn',qe:'qerr'};
+  for(const[k,id]of Object.entries(ids2)){const el=document.getElementById(id);if(el)el.innerHTML=g(k)}
+  document.getElementById('t-bm').innerHTML=g('bm_');
+  document.getElementById('t-dst').innerHTML=g('dst');
+  // Placeholders
+  const ph={pn:'i-name',pa:'i-age',pw:'i-wt',ph:'i-ht'};
+  for(const[k,id]of Object.entries(ph)){const el=document.getElementById(id);if(el)el.placeholder=g(k)}
+  // Inherit chips
+  ['ih_none','ih_one','ih_both'].forEach(k=>{const el=document.querySelector(`[data-k="${k}"]`);if(el)el.textContent=g(k)});
+  document.getElementById('rl')&&(document.getElementById('t-rl').textContent=g('rl'));
+  document.getElementById('t-rd1').textContent=g('rd');
+  document.getElementById('t-rd2').textContent=g('rd');
+  document.getElementById('t-ra').textContent=g('ra');
+  // Info cards
+  const ic2=document.getElementById('icards');
+  if(ic2)ic2.innerHTML=g('ic').map(c=>`<div class="ifc"><div class="ift">${c.i} ${c.t}</div><div class="ifx">${c.x}</div></div>`).join('');
+  // Meal
+  sDT(dtp);rR();rDT();rM(0);
+}
+
+function rR(){const c=document.getElementById('rcard');if(!c)return;c.innerHTML=`<div style="font-size:10px;font-weight:700;color:var(--tm);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">${g('rul')}</div>`+g('rules').map(r=>`<div class="rui"><div class="ruc">✓</div><div>${r}</div></div>`).join('')}
+function sDT(t){dtp=t;document.getElementById('tp1').classList.toggle('act',t===1);document.getElementById('tp2').classList.toggle('act',t===2);document.getElementById('tnb').innerHTML=t===1?g('t1n'):g('t2n')}
+function rDT(){const d=document.getElementById('dtabs');if(!d)return;d.innerHTML=ML.map((_,i)=>`<button class="dtb${i===0?' act':''}" onclick="sD(${i})">${i+1}-${g('dy')}</button>`).join('')}
+function sD(i){document.querySelectorAll('.dtb').forEach((b,j)=>b.classList.toggle('act',j===i));rM(i)}
+function rM(i){const c=document.getElementById('mcon');if(!c)return;const m=ML[i];c.innerHTML=[{k:'bf',f:m.b},{k:'sn',f:m.s},{k:'lu',f:m.l},{k:'dn',f:m.d}].map(x=>`<div class="mc2"><div class="mtm">${g(x.k)}</div><div class="mit">${x.f}</div></div>`).join('')}
+
+function nv(p){document.querySelectorAll('.pg').forEach(x=>x.classList.remove('act'));document.getElementById(p).classList.add('act');document.querySelector('.scr').scrollTop=0;document.querySelectorAll('.nb').forEach(b=>b.classList.remove('act'));if(p==='pg-meal')document.getElementById('nm').classList.add('act');else if(p==='pg-info')document.getElementById('ni2').classList.add('act');else document.getElementById('nh').classList.add('act')}
+function sP(p){nv(p)}
+function sG(v){S.g=v;document.getElementById('gm').classList.toggle('sel',v==='m');document.getElementById('gf').classList.toggle('sel',v==='f');ck()}
+function sI(v){S.i=v;['in','io','ib'].forEach(x=>document.getElementById(x).classList.remove('sel'));document.getElementById(v==='n'?'in':v==='o'?'io':'ib').classList.add('sel');ck()}
+function cBMI(){const w=parseFloat(document.getElementById('i-wt').value),h=parseFloat(document.getElementById('i-ht').value);if(w>0&&h>50){const b=w/((h/100)**2);S.bmi=b;document.getElementById('bmi-d').style.display='flex';document.getElementById('bmi-v').textContent=b.toFixed(1);const p=document.getElementById('bmi-p');if(b<18.5){p.className='bmc bmc-o';p.textContent=g('bmu')}else if(b<25){p.className='bmc bmc-n';p.textContent='Normal ✓'}else if(b<30){p.className='bmc bmc-o';p.textContent=g('bmo')}else{p.className='bmc bmc-ob';p.textContent=g('bmob')}}ck()}
+function ck(){const ok=document.getElementById('i-age').value&&document.getElementById('i-wt').value&&document.getElementById('i-ht').value&&S.g&&S.i;document.getElementById('b2').disabled=!ok}
+function gP2(){S.n=document.getElementById('i-name').value||g('def');S.a=parseInt(document.getElementById('i-age').value);S.w=parseFloat(document.getElementById('i-wt').value);S.h=parseFloat(document.getElementById('i-ht').value);sP('pg2');cQ=0;S.ans={};bD();rQ(0)}
+function bD(){const d=document.getElementById('qdots');d.innerHTML='';QS.forEach((_,i)=>{const e=document.createElement('div');e.className='qd'+(i===0?' on':'');e.id='qd'+i;d.appendChild(e)})}
+function rQ(i){document.getElementById('qerr').style.display='none';document.getElementById('qcnt').textContent=(i+1)+' / '+QS.length;QS.forEach((_,j)=>{const d=document.getElementById('qd'+j);if(d)d.className='qd'+(j===i?' on':j<i?' dn':'')});
+const q=QS[i],c=document.getElementById('qcon');c.innerHTML='';const cd=document.createElement('div');cd.className='qc';
+const u=g(q.u)||'';
+let h=`<div class="qb">${g(q.b)}</div><div class="qt">${g(q.t)}</div><div class="qw">${g('qaw')} <strong>${(q.wt*100).toFixed(0)}%</strong> ${g('qai')}</div>`;
+if(q.tp==='s'){const cv=S.ans[q.id]!==undefined?S.ans[q.id]:Math.round((q.mx-q.mn)/2);S.ans[q.id]=cv;const lb=g(q.l);h+=`<div class="sv" id="sv${q.id}">${cv} ${u}</div><input type="range" min="${q.mn}" max="${q.mx}" value="${cv}" step="1" oninput="document.getElementById('sv${q.id}').textContent=this.value+' ${u}';S.ans['${q.id}']=parseInt(this.value)"><div class="sl"><span>${lb[0]}</span><span>${lb[1]}</span><span>${lb[2]}</span></div>`}
+else{const op=g(q.o);h+='<div class="pr">';op.forEach((o,j)=>{const v=j+1,s=S.ans[q.id]===v?'sel':'';h+=`<div class="pc ${s}" id="p${q.id}${v}" onclick="sP2('${q.id}',${v},${op.length})"><div class="pci">${q.ic[j]}</div><div class="pct">${o}</div></div>`});h+='</div>'}
+h+=`<button class="qnb" onclick="nQ()">${i===QS.length-1?g('qan'):g('qnx')}</button>`;
+cd.innerHTML=h;c.appendChild(cd)}
+function sP2(id,v,l){S.ans[id]=v;for(let i=1;i<=l;i++){const e=document.getElementById('p'+id+i);if(e)e.classList.toggle('sel',i===v)}}
+function nQ(){const q=QS[cQ];if(q.tp==='p'&&S.ans[q.id]===undefined){document.getElementById('qerr').style.display='block';return}document.getElementById('qerr').style.display='none';if(cQ<QS.length-1){cQ++;rQ(cQ)}else{sP('pg3');rAI()}}
+
+async function rAI(){
+  document.getElementById('alv').style.display='flex';document.getElementById('arv').style.display='none';
+  const bmi=S.bmi||22;
+  const W={bmi:.22,inh:.20,age:.12,ur:.18,he:.16,fa:.14,th:.15,vi:.12,st:.10};
+  const tw=Object.values(W).reduce((a,b)=>a+b,0);
+  const bs=bmi>=30?1:bmi>=25?.65:bmi>=23?.35:bmi>=18.5?.15:.3;
+  const is2=S.i==='b'?1:S.i==='o'?.55:0;
+  const as2=S.a>55?1:S.a>45?.75:S.a>35?.45:S.a>25?.2:.1;
+  const uV=(S.ans.ur??5)/10,tV=((S.ans.th??2)-1)/3,vV=(S.ans.vi??5)/10,fV=(S.ans.fa??5)/10,hV=((S.ans.he??2)-1)/3;
+  const sV=1-((S.ans.st??2)-1)/3;
+  const raw=(W.bmi*bs+W.inh*is2+W.age*as2+W.ur*uV+W.he*hV+W.fa*fV+W.th*tV+W.vi*vV+W.st*sV)/tw;
+  const adj=1/(1+Math.exp(-8*(raw-.38)));
+  const pct=Math.min(97,Math.max(3,Math.round(adj*100)));
+  let sN,sR;
+  if(pct>=65){sR=g('sh2');sN='10 000+'}else if(pct>=35){sR=g('sm2');sN='8 000 – 10 000'}else{sR=g('sl2');sN='8 000'}
+
+  try{
+    const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:`Tibbiy AI. FAQAT JSON. Bemor: ${S.n}, ${S.a} yosh, BMI:${bmi.toFixed(1)}, Risk:${pct}%. Til:${lang}. {"verdict":"2-3 gap","recommendations":["1","2","3","4"]}`}]})});
+    const d=await r.json();const tx=(d.content||[]).map(b=>b.text||'').join('');
+    const ai=JSON.parse(tx.replace(/```json|```/g,'').trim());
+    sR2(pct,ai.verdict,ai.recommendations,bmi,bs,is2,as2,uV,vV,fV,sN,sR);
+  }catch(e){
+    const vf=pct>=65?g('vh'):pct>=35?g('vm'):g('vl');
+    const v=typeof vf==='function'?vf(S.n):vf;
+    const rc=pct>=65?g('rh2'):pct>=35?g('rm2'):g('rl2');
+    sR2(pct,v,rc,bmi,bs,is2,as2,uV,vV,fV,sN,sR);
+  }
+}
+
+function sR2(pct,v,rc,bmi,bs,is2,as2,uV,vV,fV,sN,sR){
+  document.getElementById('alv').style.display='none';document.getElementById('arv').style.display='block';
+  const cl=pct<35?'var(--g)':pct<65?'var(--y)':'var(--r)';
+  const gr=pct<35?'linear-gradient(90deg,#34d399,#10b981)':pct<65?'linear-gradient(90deg,#fbbf24,#f59e0b)':'linear-gradient(90deg,#f87171,#ef4444)';
+  document.getElementById('rpct').textContent=pct+'%';document.getElementById('rpct').style.color=cl;
+  const lv=document.getElementById('rpill');
+  if(pct<35){lv.className='rl rl-l';lv.textContent=g('ll')}else if(pct<65){lv.className='rl rl-m';lv.textContent=g('lm')}else{lv.className='rl rl-h';lv.textContent=g('lh')}
+  setTimeout(()=>{const b=document.getElementById('rbar');b.style.width=pct+'%';b.style.background=gr},300);
+  document.getElementById('rmeta').innerHTML=`<span class="rmi">👤 ${S.n}</span><span class="rmi">📅 ${S.a}</span><span class="rmi">⚖️ BMI ${bmi.toFixed(1)}</span>`;
+  const ff=[{i:'⚖️',n:g('fb'),s:Math.round(bs*100),c:'var(--p)'},{i:'🧬',n:g('fi'),s:Math.round(is2*100),c:'#a78bfa'},{i:'📅',n:g('fa'),s:Math.round(as2*100),c:'var(--a)'},{i:'💧',n:g('fs'),s:Math.round(((uV+vV+fV)/3)*100),c:'#fb923c'}];
+  document.getElementById('frow').innerHTML=ff.map(f=>`<div class="fc"><div class="fi2">${f.i}</div><div class="fn">${f.n}</div><div class="fbb"><div class="fbf" style="width:0%;background:${f.c}" data-w="${f.s}"></div></div><div class="fs">${f.s}%</div></div>`).join('');
+  setTimeout(()=>{document.querySelectorAll('.fbf').forEach(e=>{e.style.width=e.dataset.w+'%'})},500);
+  document.getElementById('avtx').textContent=v;
+  const ri2=['🩺','🥗','🏃','📊'];
+  document.getElementById('rlist').innerHTML=`<div class="vt" style="margin-bottom:12px">${g('rct')}</div>`+rc.map((r,i)=>`<div class="ri"><div class="ric">${ri2[i]||'•'}</div><div class="rtx">${r}</div></div>`).join('');
+  document.getElementById('snum').textContent=sN;document.getElementById('snote').textContent=sR;
+}
+
+function rst(){Object.assign(S,{n:'',a:0,w:0,h:0,g:'',i:'',ans:{},bmi:0});cQ=0;document.getElementById('bmi-d').style.display='none';['gm','gf'].forEach(id=>document.getElementById(id).classList.remove('sel'));['in','io','ib'].forEach(id=>document.getElementById(id).classList.remove('sel'));['i-name','i-age','i-wt','i-ht'].forEach(id=>{const e=document.getElementById(id);if(e)e.value=''});document.getElementById('b2').disabled=true;sP('pg1')}
+
+aT();
+</script>
+</body>
+</html>
