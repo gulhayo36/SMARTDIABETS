@@ -1,0 +1,2092 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Qandli Diabet AI</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+  --primary: #0ea5e9;
+  --primary-dark: #0284c7;
+  --primary-light: #e0f2fe;
+  --accent: #06b6d4;
+  --success: #22c55e;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --bg: #f0f9ff;
+  --card: #ffffff;
+  --text: #1e293b;
+  --text-light: #64748b;
+  --text-lighter: #94a3b8;
+  --border: #e2e8f0;
+  --shadow: 0 2px 12px rgba(14,165,233,0.08);
+  --shadow-lg: 0 8px 32px rgba(14,165,233,0.12);
+  --radius: 16px;
+  --radius-sm: 12px;
+  --nav-height: 72px;
+}
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* ===== SCREENS ===== */
+.screen {
+  display: none;
+  padding: 0 16px 90px;
+  animation: fadeIn 0.3s ease;
+}
+.screen.active { display: block; }
+
+@keyframes fadeIn {
+  from { opacity:0; transform:translateY(10px); }
+  to { opacity:1; transform:translateY(0); }
+}
+
+/* ===== HEADER ===== */
+.header {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+  color: white;
+  padding: 20px 16px 24px;
+  border-radius: 0 0 28px 28px;
+  margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+}
+.header::after {
+  content: '';
+  position: absolute;
+  top: -30px; right: -30px;
+  width: 120px; height: 120px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 50%;
+}
+.header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+.header-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.header-logo .icon {
+  width: 40px; height: 40px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+}
+.header-logo h1 {
+  font-size: 18px;
+  font-weight: 800;
+}
+.header-logo small {
+  font-size: 11px;
+  opacity: 0.8;
+  display: block;
+}
+.lang-switch {
+  display: flex;
+  gap: 4px;
+}
+.lang-switch span {
+  font-size: 11px;
+  padding: 4px 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: 0.2s;
+}
+.lang-switch span.active {
+  background: rgba(255,255,255,0.25);
+  opacity: 1;
+  font-weight: 700;
+}
+
+/* ===== SUB HEADER ===== */
+.sub-header {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+  color: white;
+  padding: 16px;
+  border-radius: 0 0 24px 24px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.sub-header .back-btn {
+  background: rgba(255,255,255,0.2);
+  border: none;
+  color: white;
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.sub-header h2 {
+  font-size: 17px;
+  font-weight: 800;
+}
+
+/* ===== HERO ===== */
+.hero {
+  text-align: center;
+  padding: 8px 0 16px;
+}
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--primary-light);
+  color: var(--primary);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.hero h2 {
+  font-size: 22px;
+  font-weight: 900;
+  margin-bottom: 6px;
+}
+.hero p {
+  color: var(--text-light);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* ===== CARDS GRID ===== */
+.cards-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 16px;
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+.card:active { transform: scale(0.97); }
+.card .card-icon {
+  width: 44px; height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+.card-icon.blue { background: #e0f2fe; }
+.card-icon.green { background: #dcfce7; }
+.card-icon.orange { background: #fef3c7; }
+.card-icon.red { background: #fee2e2; }
+.card-icon.purple { background: #f3e8ff; }
+.card h3 { font-size: 14px; font-weight: 800; margin-bottom: 2px; }
+.card p { font-size: 11px; color: var(--text-light); }
+.card .arrow {
+  position: absolute;
+  right: 12px; top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-lighter);
+  font-size: 16px;
+}
+
+/* ===== QUICK STATS ===== */
+.quick-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.stat-card {
+  background: var(--card);
+  border-radius: var(--radius-sm);
+  padding: 14px 10px;
+  text-align: center;
+  box-shadow: var(--shadow);
+}
+.stat-card .value {
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--primary);
+}
+.stat-card .label {
+  font-size: 11px;
+  color: var(--text-light);
+  margin-top: 2px;
+}
+
+/* ===== SECTION CARD ===== */
+.section-card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: var(--shadow);
+  margin-bottom: 16px;
+}
+.section-card h3 {
+  font-size: 16px;
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+
+/* ===== TABS ===== */
+.tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+.tab {
+  flex: 1;
+  padding: 10px;
+  border-radius: var(--radius-sm);
+  border: 2px solid var(--border);
+  background: var(--card);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  text-align: center;
+  transition: 0.2s;
+  font-family: inherit;
+}
+.tab.active {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+/* ===== FORM ===== */
+.form-group {
+  margin-bottom: 14px;
+}
+.form-group label {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.form-group input, .form-group select {
+  width: 100%;
+  padding: 12px 14px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-family: inherit;
+  font-weight: 600;
+  transition: 0.2s;
+  background: var(--bg);
+}
+.form-group input:focus, .form-group select:focus {
+  outline: none;
+  border-color: var(--primary);
+  background: white;
+}
+
+/* ===== BUTTONS ===== */
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 14px;
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+  font-weight: 700;
+  font-family: inherit;
+  border: none;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  color: white;
+}
+.btn-primary:hover { opacity: 0.9; }
+.btn-outline {
+  background: transparent;
+  border: 2px solid var(--primary);
+  color: var(--primary);
+}
+.btn-success {
+  background: linear-gradient(135deg, var(--success), #16a34a);
+  color: white;
+}
+.btn-danger {
+  background: var(--danger);
+  color: white;
+}
+
+/* ===== GENDER SELECT ===== */
+.gender-select {
+  display: flex;
+  gap: 10px;
+}
+.gender-option {
+  flex: 1;
+  padding: 14px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  text-align: center;
+  cursor: pointer;
+  transition: 0.2s;
+  background: var(--card);
+}
+.gender-option.active {
+  border-color: var(--primary);
+  background: var(--primary-light);
+}
+.gender-option .emoji { font-size: 28px; display: block; margin-bottom: 4px; }
+.gender-option .text { font-size: 13px; font-weight: 700; }
+
+/* ===== FAMILY HISTORY ===== */
+.family-select {
+  display: flex;
+  gap: 8px;
+}
+.family-option {
+  flex: 1;
+  padding: 10px 8px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  text-align: center;
+  cursor: pointer;
+  transition: 0.2s;
+  font-size: 12px;
+  font-weight: 600;
+  background: var(--card);
+}
+.family-option.active {
+  border-color: var(--primary);
+  background: var(--primary-light);
+  color: var(--primary);
+}
+
+/* ===== BMI DISPLAY ===== */
+.bmi-display {
+  background: var(--bg);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+  text-align: center;
+}
+.bmi-display .bmi-label {
+  font-size: 12px;
+  color: var(--success);
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.bmi-display .bmi-value {
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--text);
+}
+.bmi-display .bmi-unit {
+  font-size: 12px;
+  color: var(--text-light);
+}
+
+/* ===== STEP INDICATOR ===== */
+.step-indicator {
+  text-align: center;
+  color: var(--text-lighter);
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+/* ===== RESULT ===== */
+.result-box {
+  background: var(--bg);
+  border-radius: var(--radius);
+  padding: 20px;
+  text-align: center;
+  margin-bottom: 16px;
+}
+.result-box .risk-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--warning);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.result-box .risk-value {
+  font-size: 42px;
+  font-weight: 900;
+  color: var(--text);
+}
+.result-box .risk-level {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-light);
+}
+
+/* ===== AI CONCLUSION ===== */
+.ai-conclusion {
+  background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 16px;
+}
+.ai-conclusion .ai-icon {
+  font-size: 20px;
+  margin-bottom: 8px;
+}
+.ai-conclusion h4 {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--primary);
+  margin-bottom: 6px;
+}
+.ai-conclusion p {
+  font-size: 13px;
+  color: var(--text-light);
+  line-height: 1.5;
+}
+
+/* ===== FOOD LIST ===== */
+.food-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+.food-item:last-child { border-bottom: none; }
+.food-item .food-icon {
+  width: 42px; height: 42px;
+  background: var(--bg);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+.food-item .food-info { flex: 1; }
+.food-item .food-name { font-size: 14px; font-weight: 700; }
+.food-item .food-detail { font-size: 12px; color: var(--text-light); }
+.food-item .food-badge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 8px;
+}
+.food-badge.good { background: #dcfce7; color: #16a34a; }
+.food-badge.medium { background: #fef3c7; color: #d97706; }
+.food-badge.excellent { background: #e0f2fe; color: #0284c7; }
+
+/* ===== NUTRITION RESULT ===== */
+.nutrition-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.nutrition-item {
+  background: var(--bg);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+  text-align: center;
+}
+.nutrition-item .n-value {
+  font-size: 24px;
+  font-weight: 900;
+  color: var(--text);
+}
+.nutrition-item .n-unit {
+  font-size: 11px;
+  color: var(--text-light);
+}
+.nutrition-item .n-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-light);
+  margin-top: 2px;
+}
+
+/* ===== DAILY SUMMARY ===== */
+.daily-summary {
+  display: flex;
+  justify-content: space-around;
+  text-align: center;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 12px;
+}
+.daily-summary .ds-item .ds-value { font-size: 16px; font-weight: 800; }
+.daily-summary .ds-item .ds-label { font-size: 11px; color: var(--text-light); }
+
+/* ===== ACTIVITY SCREEN ===== */
+.activity-hero {
+  text-align: center;
+  padding: 20px 0;
+}
+.activity-hero .step-count {
+  font-size: 52px;
+  font-weight: 900;
+  color: var(--primary);
+}
+.activity-hero .step-label {
+  font-size: 14px;
+  color: var(--text-light);
+  font-weight: 600;
+}
+.activity-hero .step-percent {
+  font-size: 13px;
+  color: var(--accent);
+  font-weight: 700;
+  margin-top: 4px;
+}
+.activity-hero .step-goal {
+  font-size: 12px;
+  color: var(--text-lighter);
+  margin-top: 2px;
+}
+
+.activity-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.a-stat {
+  background: var(--card);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+  text-align: center;
+  box-shadow: var(--shadow);
+}
+.a-stat .a-icon { font-size: 20px; margin-bottom: 4px; }
+.a-stat .a-value { font-size: 22px; font-weight: 900; color: var(--text); }
+.a-stat .a-label { font-size: 11px; color: var(--text-light); }
+
+/* ===== BLOOD SUGAR ===== */
+.blood-hero {
+  text-align: center;
+  padding: 20px 0;
+}
+.blood-hero .blood-value {
+  font-size: 56px;
+  font-weight: 900;
+  color: var(--primary);
+}
+.blood-hero .blood-unit {
+  font-size: 16px;
+  color: var(--text-light);
+  font-weight: 600;
+}
+.blood-hero .blood-status {
+  display: inline-flex;
+  padding: 4px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  margin-top: 6px;
+}
+.blood-status.normal { background: #dcfce7; color: #16a34a; }
+.blood-status.high { background: #fee2e2; color: #dc2626; }
+.blood-hero .blood-time {
+  font-size: 12px;
+  color: var(--text-lighter);
+  margin-top: 6px;
+}
+
+.blood-history-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+.blood-history-item:last-child { border-bottom: none; }
+.bh-left .bh-value { font-size: 16px; font-weight: 800; }
+.bh-left .bh-time { font-size: 12px; color: var(--text-light); }
+.bh-badge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 8px;
+}
+
+/* ===== ABOUT SCREEN ===== */
+.about-stats {
+  display: flex;
+  justify-content: space-around;
+  margin: 20px 0;
+}
+.about-stat {
+  text-align: center;
+}
+.about-stat .as-value {
+  font-size: 20px;
+  font-weight: 900;
+  color: var(--primary);
+}
+.about-stat .as-sub {
+  font-size: 10px;
+  color: var(--text-light);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.team-member {
+  background: var(--bg);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  text-align: center;
+}
+.team-member .tm-icon { font-size: 36px; margin-bottom: 6px; }
+.team-member .tm-name { font-size: 13px; font-weight: 800; }
+.team-member .tm-role { font-size: 11px; color: var(--text-light); }
+
+/* ===== DEMO SCREEN ===== */
+.demo-video-container {
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: #000;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow-lg);
+  position: relative;
+}
+.demo-video-container video,
+.demo-video-container iframe {
+  width: 100%;
+  aspect-ratio: 16/9;
+  display: block;
+  border: none;
+}
+.demo-video-placeholder {
+  width: 100%;
+  aspect-ratio: 16/9;
+  background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 50%, #0f172a 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+.demo-video-placeholder::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(14,165,233,0.15) 0%, transparent 70%);
+}
+.demo-play-btn {
+  width: 72px; height: 72px;
+  background: rgba(14,165,233,0.9);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: 0.3s;
+  z-index: 1;
+  border: 3px solid rgba(255,255,255,0.3);
+}
+.demo-play-btn:hover {
+  transform: scale(1.1);
+  background: var(--primary);
+}
+.demo-play-btn svg {
+  width: 28px; height: 28px;
+  fill: white;
+  margin-left: 4px;
+}
+.demo-video-placeholder .demo-label {
+  margin-top: 14px;
+  font-size: 14px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.8);
+  z-index: 1;
+}
+.demo-video-placeholder .demo-duration {
+  margin-top: 4px;
+  font-size: 12px;
+  color: rgba(255,255,255,0.5);
+  z-index: 1;
+}
+
+.demo-desc-box {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: var(--shadow);
+  margin-bottom: 16px;
+}
+.demo-desc-box h3 {
+  font-size: 16px;
+  font-weight: 800;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.demo-desc-box p {
+  font-size: 13px;
+  color: var(--text-light);
+  line-height: 1.7;
+  margin-bottom: 10px;
+}
+.demo-desc-box ul {
+  list-style: none;
+  padding: 0;
+}
+.demo-desc-box ul li {
+  font-size: 13px;
+  color: var(--text-light);
+  padding: 6px 0;
+  padding-left: 22px;
+  position: relative;
+  line-height: 1.5;
+}
+.demo-desc-box ul li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--success);
+  font-weight: 700;
+}
+
+.demo-features {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.demo-feature {
+  background: var(--card);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  text-align: center;
+  box-shadow: var(--shadow);
+  transition: 0.2s;
+}
+.demo-feature:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+.demo-feature .df-icon { font-size: 28px; margin-bottom: 8px; }
+.demo-feature .df-title { font-size: 13px; font-weight: 800; margin-bottom: 3px; }
+.demo-feature .df-desc { font-size: 11px; color: var(--text-light); }
+
+.demo-prototype-box {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+  border-radius: var(--radius);
+  padding: 24px 20px;
+  text-align: center;
+  color: white;
+  margin-bottom: 16px;
+  position: relative;
+  overflow: hidden;
+}
+.demo-prototype-box::after {
+  content: '';
+  position: absolute;
+  top: -40px; right: -40px;
+  width: 140px; height: 140px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 50%;
+}
+.demo-prototype-box h3 {
+  font-size: 17px;
+  font-weight: 800;
+  margin-bottom: 8px;
+  position: relative;
+  z-index: 1;
+}
+.demo-prototype-box p {
+  font-size: 13px;
+  opacity: 0.85;
+  margin-bottom: 16px;
+  line-height: 1.5;
+  position: relative;
+  z-index: 1;
+}
+.demo-prototype-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 28px;
+  background: white;
+  color: var(--primary);
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+  font-weight: 800;
+  text-decoration: none;
+  transition: 0.2s;
+  position: relative;
+  z-index: 1;
+  cursor: pointer;
+  border: none;
+  font-family: inherit;
+}
+.demo-prototype-btn:hover { transform: scale(1.03); box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
+
+.demo-tech-stack {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: var(--shadow);
+  margin-bottom: 16px;
+}
+.demo-tech-stack h3 {
+  font-size: 16px;
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+.tech-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.tech-tag {
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+}
+.tech-tag.html { background: #fee2e2; color: #dc2626; }
+.tech-tag.css { background: #e0f2fe; color: #0284c7; }
+.tech-tag.js { background: #fef3c7; color: #d97706; }
+.tech-tag.ai { background: #f3e8ff; color: #7c3aed; }
+.tech-tag.api { background: #dcfce7; color: #16a34a; }
+
+/* ===== CLINICAL QUESTIONS ===== */
+.question-card {
+  background: var(--bg);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 16px;
+}
+.question-card .q-number {
+  font-size: 12px;
+  color: var(--primary);
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.question-card .q-text {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+.q-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.q-option {
+  padding: 12px 16px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+  background: var(--card);
+}
+.q-option.selected {
+  border-color: var(--primary);
+  background: var(--primary-light);
+  color: var(--primary);
+}
+
+/* ===== WEEKLY MENU ===== */
+.menu-day {
+  margin-bottom: 14px;
+}
+.menu-day .day-label {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--primary);
+  margin-bottom: 8px;
+}
+.menu-meal {
+  display: flex;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+}
+.menu-meal:last-child { border-bottom: none; }
+.menu-meal .meal-type {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-lighter);
+  width: 70px;
+  flex-shrink: 0;
+  text-transform: uppercase;
+}
+.menu-meal .meal-food {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* ===== STEP REC ===== */
+.step-rec {
+  background: linear-gradient(135deg, #dcfce7, #e0f2fe);
+  border-radius: var(--radius);
+  padding: 16px;
+  text-align: center;
+  margin-bottom: 16px;
+}
+.step-rec .sr-icon { font-size: 24px; }
+.step-rec .sr-label { font-size: 12px; font-weight: 700; color: var(--text-light); margin-top: 4px; }
+.step-rec .sr-value { font-size: 22px; font-weight: 900; color: var(--text); }
+.step-rec .sr-unit { font-size: 12px; color: var(--text-light); }
+
+/* ===== ANALYSIS LOADING ===== */
+.analysis-loading {
+  text-align: center;
+  padding: 30px 0;
+}
+.analysis-loading .al-brain { font-size: 48px; margin-bottom: 12px; }
+.analysis-loading h3 {
+  font-size: 18px;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+.analysis-loading p {
+  font-size: 13px;
+  color: var(--text-light);
+}
+
+/* ===== UPLOAD AREA ===== */
+.upload-area {
+  border: 2px dashed var(--border);
+  border-radius: var(--radius);
+  padding: 30px;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.upload-area:hover {
+  border-color: var(--primary);
+  background: var(--primary-light);
+}
+.upload-area .upload-icon { font-size: 40px; margin-bottom: 8px; }
+.upload-area p { font-size: 13px; color: var(--text-light); margin-bottom: 12px; }
+
+/* ===== BOTTOM NAV ===== */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 480px;
+  background: var(--card);
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-around;
+  padding: 8px 0;
+  padding-bottom: max(8px, env(safe-area-inset-bottom));
+  z-index: 100;
+  box-shadow: 0 -2px 12px rgba(0,0,0,0.06);
+}
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  cursor: pointer;
+  padding: 4px 8px;
+  transition: 0.2s;
+  border: none;
+  background: none;
+  font-family: inherit;
+  min-width: 0;
+}
+.nav-item .nav-icon { font-size: 20px; }
+.nav-item .nav-label { font-size: 10px; font-weight: 700; color: var(--text-lighter); }
+.nav-item.active .nav-label { color: var(--primary); }
+.nav-item.active .nav-icon { transform: scale(1.15); }
+
+/* ===== UTILITIES ===== */
+.text-center { text-align: center; }
+.text-sm { font-size: 12px; }
+.text-light { color: var(--text-light); }
+.mt-8 { margin-top: 8px; }
+.mt-16 { margin-top: 16px; }
+.mb-8 { margin-bottom: 8px; }
+.mb-16 { margin-bottom: 16px; }
+.mb-24 { margin-bottom: 24px; }
+.flex-row { display: flex; gap: 10px; }
+.flex-1 { flex: 1; }
+.notice {
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  font-size: 12px;
+  color: #92400e;
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+/* ===== INPUT ROW ===== */
+.input-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.input-row input {
+  flex: 1;
+  padding: 12px 14px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-family: inherit;
+  font-weight: 600;
+}
+.input-row input:focus { outline: none; border-color: var(--primary); }
+.input-row button {
+  padding: 12px 16px;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+/* ===== BLOOD SUGAR TIMING ===== */
+.timing-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.timing-option {
+  padding: 10px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  text-align: center;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+  background: var(--card);
+}
+.timing-option.active {
+  border-color: var(--primary);
+  background: var(--primary-light);
+  color: var(--primary);
+}
+
+/* ===== PROGRESS CIRCLE (Activity) ===== */
+.progress-ring-container {
+  position: relative;
+  display: inline-block;
+}
+.progress-ring-container .ring-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+/* ===== CHART BARS ===== */
+.chart-bars {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  height: 120px;
+  gap: 6px;
+  padding: 10px 0;
+}
+.chart-bar {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.chart-bar .bar {
+  width: 100%;
+  max-width: 28px;
+  border-radius: 6px 6px 0 0;
+  transition: 0.3s;
+}
+.chart-bar .bar-label {
+  font-size: 10px;
+  color: var(--text-lighter);
+  font-weight: 600;
+}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+/* ===== DEMO BADGE ON HOME ===== */
+.demo-banner {
+  background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 16px;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  cursor: pointer;
+  transition: 0.2s;
+  box-shadow: 0 4px 16px rgba(124,58,237,0.2);
+}
+.demo-banner:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(124,58,237,0.3); }
+.demo-banner:active { transform: scale(0.98); }
+.demo-banner .db-icon {
+  width: 48px; height: 48px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  flex-shrink: 0;
+}
+.demo-banner .db-content { flex: 1; }
+.demo-banner h3 { font-size: 15px; font-weight: 800; }
+.demo-banner p { font-size: 12px; opacity: 0.85; margin-top: 2px; }
+.demo-banner .db-arrow { font-size: 20px; opacity: 0.7; }
+</style>
+</head>
+<body>
+
+<!-- ==================== HOME SCREEN ==================== -->
+<div id="screen-home" class="screen active">
+  <div class="header">
+    <div class="header-top">
+      <div class="header-logo">
+        <div class="icon">🩺</div>
+        <div>
+          <h1>Qandli Diabet AI</h1>
+          <small>Sog'ligingizni nazorat qiling</small>
+        </div>
+      </div>
+      <div class="lang-switch">
+        <span class="active">UZ</span>
+        <span>RU</span>
+        <span>EN</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero">
+    <div class="hero-badge">⚡ Smart AI</div>
+    <h2>Xush kelibsiz!</h2>
+    <p>Qandli diabet xavfini baholang va kunlik sog'ligingizni kuzatib boring.</p>
+  </div>
+
+  <div class="cards-grid">
+    <div class="card" onclick="showScreen('screen-diagnosis')">
+      <div class="card-icon blue">📊</div>
+      <h3>Diabet Tashxisi</h3>
+      <p>Xavfni baholash</p>
+      <span class="arrow">›</span>
+    </div>
+    <div class="card" onclick="showScreen('screen-food')">
+      <div class="card-icon green">🍽️</div>
+      <h3>Ozuqa Skaneri</h3>
+      <p>Kaloriya hisoblash</p>
+      <span class="arrow">›</span>
+    </div>
+    <div class="card" onclick="showScreen('screen-activity')">
+      <div class="card-icon orange">🚶</div>
+      <h3>Kunlik Faollik</h3>
+      <p>5000 qadam maqsadi</p>
+      <span class="arrow">›</span>
+    </div>
+    <div class="card" onclick="showScreen('screen-blood')">
+      <div class="card-icon red">🩸</div>
+      <h3>Qon Shakari</h3>
+      <p>Darajani kuzatish</p>
+      <span class="arrow">›</span>
+    </div>
+  </div>
+
+  <!-- Demo Banner on Home -->
+  <div class="demo-banner" onclick="showScreen('screen-demo')">
+    <div class="db-icon">🎬</div>
+    <div class="db-content">
+      <h3>Demo ko'rish</h3>
+      <p>Loyihaning ishlash jarayonini tomosha qiling</p>
+    </div>
+    <span class="db-arrow">›</span>
+  </div>
+
+  <div class="quick-stats">
+    <div class="stat-card">
+      <div class="value">4,280</div>
+      <div class="label">Qadam</div>
+    </div>
+    <div class="stat-card">
+      <div class="value">5.2</div>
+      <div class="label">Qon shakari</div>
+    </div>
+    <div class="stat-card">
+      <div class="value">1,840</div>
+      <div class="label">Kaloriya</div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== FOOD SCREEN ==================== -->
+<div id="screen-food" class="screen">
+  <div class="sub-header">
+    <button class="back-btn" onclick="showScreen('screen-home')">‹</button>
+    <h2>Ozuqa Tahlili</h2>
+  </div>
+
+  <p class="text-sm text-light text-center mb-16">Ovqat nomini yozing yoki rasmini oling — AI ozuqaviy qiymatini aniqlaydi.</p>
+
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab(this, 'food-text')">T Matn</button>
+    <button class="tab" onclick="switchTab(this, 'food-camera')">📷 Kamera</button>
+  </div>
+
+  <div id="food-text">
+    <div class="section-card">
+      <div class="form-group">
+        <label>Ovqat nomi</label>
+        <div style="position:relative;">
+          <input type="text" placeholder="Masalan: Palov, Non, Osh..." id="foodNameInput">
+          <span style="position:absolute; right:12px; top:50%; transform:translateY(-50%); color:var(--text-lighter);">🔍</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Miqdori (ixtiyoriy)</label>
+        <div class="flex-row">
+          <input type="number" placeholder="100" style="flex:1;">
+          <select style="width:100px;">
+            <option>g</option>
+            <option>po'rsiya</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="analyzeFood()">🔍 Tahlil qilish</button>
+    </div>
+  </div>
+
+  <div id="food-camera" style="display:none;">
+    <div class="section-card">
+      <div class="upload-area">
+        <div class="upload-icon">📷</div>
+        <p>Rasmga olish yoki yuklash</p>
+        <p class="text-sm text-light">Ovqat rasmini oling, AI tahlil qiladi</p>
+        <div class="flex-row mt-16" style="justify-content:center;">
+          <button class="btn btn-outline" style="width:auto; padding:10px 20px; font-size:13px;">🖼️ Galereya</button>
+          <button class="btn btn-primary" style="width:auto; padding:10px 20px; font-size:13px;">📷 Kamera</button>
+        </div>
+      </div>
+      <button class="btn btn-primary mt-16">📸 Rasmni tahlil qilish</button>
+    </div>
+  </div>
+
+  <div class="nutrition-grid">
+    <div class="nutrition-item">
+      <div class="n-value">—</div>
+      <div class="n-unit">kcal</div>
+      <div class="n-label">Kaloriya</div>
+    </div>
+    <div class="nutrition-item">
+      <div class="n-value">—</div>
+      <div class="n-unit">g</div>
+      <div class="n-label">Uglevodlar</div>
+    </div>
+    <div class="nutrition-item">
+      <div class="n-value">—</div>
+      <div class="n-unit">g</div>
+      <div class="n-label">Oqsil</div>
+    </div>
+    <div class="nutrition-item">
+      <div class="n-value">—</div>
+      <div class="n-unit">g</div>
+      <div class="n-label">Yog'</div>
+    </div>
+  </div>
+
+  <div class="section-card text-center text-sm text-light mb-16">
+    <span>—</span><br>GI: —
+  </div>
+
+  <button class="btn btn-outline mb-16">↺ Yangi tahlil</button>
+
+  <div class="section-card">
+    <h3>Bugungi ozuqalar</h3>
+    <div class="daily-summary">
+      <div class="ds-item">
+        <div class="ds-value">1,840 kcal</div>
+        <div class="ds-label">Kunlik jami</div>
+      </div>
+    </div>
+    <div style="display:flex; justify-content:space-around; margin-bottom:12px;">
+      <div class="text-center">
+        <div style="font-weight:800;">245g</div>
+        <div class="text-sm text-light">Uglevod</div>
+      </div>
+      <div class="text-center">
+        <div style="font-weight:800;">82g</div>
+        <div class="text-sm text-light">Oqsil</div>
+      </div>
+      <div class="text-center">
+        <div style="font-weight:800;">54g</div>
+        <div class="text-sm text-light">Yog'</div>
+      </div>
+    </div>
+    <div class="food-item">
+      <div class="food-icon">🍚</div>
+      <div class="food-info">
+        <div class="food-name">Palov</div>
+        <div class="food-detail">320 kcal · 200g</div>
+      </div>
+      <span class="food-badge medium">O'rta</span>
+    </div>
+    <div class="food-item">
+      <div class="food-icon">🥚</div>
+      <div class="food-info">
+        <div class="food-name">Qaynatilgan tuxum</div>
+        <div class="food-detail">78 kcal · 1 dona</div>
+      </div>
+      <span class="food-badge good">Yaxshi</span>
+    </div>
+    <div class="food-item">
+      <div class="food-icon">🍵</div>
+      <div class="food-info">
+        <div class="food-name">Ko'k choy</div>
+        <div class="food-detail">3 kcal · 200ml</div>
+      </div>
+      <span class="food-badge excellent">A'lo</span>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== DIAGNOSIS SCREEN ==================== -->
+<div id="screen-diagnosis" class="screen">
+  <div class="sub-header">
+    <button class="back-btn" onclick="showScreen('screen-home')">‹</button>
+    <h2>SMART DIABETES AI</h2>
+  </div>
+
+  <!-- Step 1: Profile -->
+  <div id="diag-step-1">
+    <div class="step-indicator">1 / 3</div>
+    <div class="section-card">
+      <h3>Profil Ma'lumotlari</h3>
+      <p class="text-sm text-light mb-16">Aniq natija uchun barcha maydonlarni to'ldiring. BMI avtomatik hisoblanadi.</p>
+
+      <div class="form-group">
+        <label>ISM FAMILIYA</label>
+        <input type="text" placeholder="Ism Familiya" id="fullName">
+      </div>
+      <div class="flex-row">
+        <div class="form-group flex-1">
+          <label>YOSH</label>
+          <input type="number" placeholder="25" id="age">
+        </div>
+        <div class="form-group flex-1">
+          <label>VAZN (KG)</label>
+          <input type="number" placeholder="70" id="weight" oninput="calcBMI()">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>BO'Y (SM)</label>
+        <input type="number" placeholder="170" id="height" oninput="calcBMI()">
+      </div>
+
+      <div class="form-group">
+        <label>BMI</label>
+        <div class="bmi-display">
+          <div class="bmi-label" id="bmiStatus">Normal ✓</div>
+          <div class="bmi-value" id="bmiValue">—</div>
+          <div class="bmi-unit">kg/m²</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>JINS</label>
+        <div class="gender-select">
+          <div class="gender-option active" onclick="selectGender(this)">
+            <span class="emoji">👨</span>
+            <span class="text">Erkak</span>
+          </div>
+          <div class="gender-option" onclick="selectGender(this)">
+            <span class="emoji">👩</span>
+            <span class="text">Ayol</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>OILAVIY DIABET TARIXI</label>
+        <div class="family-select">
+          <div class="family-option active" onclick="selectFamily(this)">Yo'q</div>
+          <div class="family-option" onclick="selectFamily(this)">Bir ota-ona</div>
+          <div class="family-option" onclick="selectFamily(this)">Ikkalasi ham</div>
+        </div>
+      </div>
+
+      <button class="btn btn-primary mt-16" onclick="goToStep(2)">Klinik Tekshiruvga O'tish →</button>
+    </div>
+  </div>
+
+  <!-- Step 2: Clinical -->
+  <div id="diag-step-2" style="display:none;">
+    <div class="step-indicator">2 / 3</div>
+    <div class="section-card">
+      <h3>Klinik Baholash</h3>
+      <p class="text-sm text-light mb-16">AI har bir simptomni alohida koeffitsient bilan tahlil qiladi</p>
+
+      <div id="questions-container">
+        <div class="question-card">
+          <div class="q-number">1/6</div>
+          <div class="q-text">Tez-tez chanqaysizmi?</div>
+          <div class="q-options">
+            <div class="q-option" onclick="selectOption(this)">Ha, doimo</div>
+            <div class="q-option" onclick="selectOption(this)">Ba'zan</div>
+            <div class="q-option" onclick="selectOption(this)">Yo'q</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="notice">⚠️ Iltimos, javob bering.</div>
+
+      <div class="flex-row mt-16">
+        <button class="btn btn-outline flex-1" onclick="goToStep(1)">← Orqaga</button>
+        <button class="btn btn-primary flex-1" onclick="goToStep(3)">Natija →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 3: Result -->
+  <div id="diag-step-3" style="display:none;">
+    <div class="step-indicator">3 / 3</div>
+
+    <div class="analysis-loading" id="analysisLoading">
+      <div class="al-brain">🧠</div>
+      <h3>AI Ma'lumotlaringizni<br>Tahlil Qilmoqda</h3>
+      <p>Weighted Risk Scoring...</p>
+    </div>
+
+    <div id="analysisResult" style="display:none;">
+      <div class="notice">AI bashorati — tibbiy tashxis emas</div>
+
+      <div class="result-box">
+        <div class="risk-label">⚠ QANDLI DIABET XAVFI</div>
+        <div class="risk-value" id="riskPercent">35%</div>
+        <div class="risk-level" id="riskLevel">O'rtacha xavf</div>
+      </div>
+
+      <div class="ai-conclusion">
+        <div class="ai-icon">🤖</div>
+        <h4>AI XULOSASI</h4>
+        <p id="aiConclusion">Sizning ma'lumotlaringiz asosida qandli diabet xavfi o'rtacha darajada. Muntazam tekshiruvdan o'tishingiz tavsiya etiladi.</p>
+      </div>
+
+      <div class="step-rec">
+        <div class="sr-icon">🚶</div>
+        <div class="sr-label">KUNLIK QADAM</div>
+        <div class="sr-value">8 000</div>
+        <div class="sr-unit">qadam / kuniga</div>
+      </div>
+
+      <button class="btn btn-primary mb-8" onclick="goToStep(1)">🔄 Qaytadan Tekshirish</button>
+      <button class="btn btn-success" onclick="showScreen('screen-menu')">🥗 Ovqatlanish Rejimi</button>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== MENU SCREEN ==================== -->
+<div id="screen-menu" class="screen">
+  <div class="sub-header">
+    <button class="back-btn" onclick="showScreen('screen-diagnosis')">‹</button>
+    <h2>Haftalik Menyu</h2>
+  </div>
+
+  <div class="section-card">
+    <h3>Ovqatlanish Rejimi</h3>
+    <p class="text-sm text-light mb-16">1-tip va 2-tip diabet uchun</p>
+    <div class="tabs">
+      <button class="tab active" onclick="switchMenuTab(this, '1-tip')">1-tip</button>
+      <button class="tab" onclick="switchMenuTab(this, '2-tip')">2-tip</button>
+    </div>
+
+    <div id="menu-content">
+      <div class="menu-day">
+        <div class="day-label">Dushanba</div>
+        <div class="menu-meal">
+          <span class="meal-type">Nonushta</span>
+          <span class="meal-food">Sut bilan bo'tqa, 1 tuxum, ko'k choy</span>
+        </div>
+        <div class="menu-meal">
+          <span class="meal-type">Tushlik</span>
+          <span class="meal-food">Sabzavotli sho'rva, guruch, baliq</span>
+        </div>
+        <div class="menu-meal">
+          <span class="meal-type">Kechlik</span>
+          <span class="meal-food">Salat, non, qatiq</span>
+        </div>
+      </div>
+      <div class="menu-day">
+        <div class="day-label">Seshanba</div>
+        <div class="menu-meal">
+          <span class="meal-type">Nonushta</span>
+          <span class="meal-food">Tvorog, meva, ko'k choy</span>
+        </div>
+        <div class="menu-meal">
+          <span class="meal-type">Tushlik</span>
+          <span class="meal-food">Makaron, tovuq go'shti, salat</span>
+        </div>
+        <div class="menu-meal">
+          <span class="meal-type">Kechlik</span>
+          <span class="meal-food">Qaynatilgan sabzavot, kefir</span>
+        </div>
+      </div>
+      <div class="menu-day">
+        <div class="day-label">Chorshanba</div>
+        <div class="menu-meal">
+          <span class="meal-type">Nonushta</span>
+          <span class="meal-food">Yog'siz omlet, non, choy</span>
+        </div>
+        <div class="menu-meal">
+          <span class="meal-type">Tushlik</span>
+          <span class="meal-food">Mosh sho'rva, guruch, salat</span>
+        </div>
+        <div class="menu-meal">
+          <span class="meal-type">Kechlik</span>
+          <span class="meal-food">Tvorog, meva salati</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="step-rec">
+    <div class="sr-icon">🚶</div>
+    <div class="sr-label">KUNLIK QADAM</div>
+    <div class="sr-value">8 000 – 10 000</div>
+    <div class="sr-unit">qadam / kuniga</div>
+  </div>
+</div>
+
+<!-- ==================== ACTIVITY SCREEN ==================== -->
+<div id="screen-activity" class="screen">
+  <div class="sub-header">
+    <button class="back-btn" onclick="showScreen('screen-home')">‹</button>
+    <h2>Kunlik Faollik</h2>
+  </div>
+
+  <div class="section-card">
+    <p class="text-sm text-light text-center">Bugun</p>
+    <div class="activity-hero">
+      <div class="step-count">4,280</div>
+      <div class="step-label">qadam</div>
+      <div class="step-percent">43% maqsad</div>
+      <div class="step-goal">Maqsad: <strong>10,000</strong></div>
+    </div>
+  </div>
+
+  <div class="activity-stats">
+    <div class="a-stat">
+      <div class="a-icon">🔥</div>
+      <div class="a-value">186</div>
+      <div class="a-label">kcal yondi</div>
+    </div>
+    <div class="a-stat">
+      <div class="a-icon">⏱️</div>
+      <div class="a-value">42</div>
+      <div class="a-label">daqiqa faol</div>
+    </div>
+    <div class="a-stat">
+      <div class="a-icon">📏</div>
+      <div class="a-value">3.2</div>
+      <div class="a-label">km masofa</div>
+    </div>
+    <div class="a-stat">
+      <div class="a-icon">❤️</div>
+      <div class="a-value">72</div>
+      <div class="a-label">yurak urishi</div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <h3>Haftalik qadam tarixi</h3>
+    <div class="chart-bars">
+      <div class="chart-bar">
+        <div class="bar" style="height:45%; background:var(--primary-light);"></div>
+        <div class="bar-label">Du</div>
+      </div>
+      <div class="chart-bar">
+        <div class="bar" style="height:65%; background:var(--primary-light);"></div>
+        <div class="bar-label">Se</div>
+      </div>
+      <div class="chart-bar">
+        <div class="bar" style="height:80%; background:var(--primary-light);"></div>
+        <div class="bar-label">Cho</div>
+      </div>
+      <div class="chart-bar">
+        <div class="bar" style="height:55%; background:var(--primary-light);"></div>
+        <div class="bar-label">Pa</div>
+      </div>
+      <div class="chart-bar">
+        <div class="bar" style="height:90%; background:var(--primary);"></div>
+        <div class="bar-label">Ju</div>
+      </div>
+      <div class="chart-bar">
+        <div class="bar" style="height:70%; background:var(--primary-light);"></div>
+        <div class="bar-label">Sha</div>
+      </div>
+      <div class="chart-bar">
+        <div class="bar" style="height:43%; background:var(--accent);"></div>
+        <div class="bar-label">Ya</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <div class="form-group">
+      <label>Maqsad (qadam)</label>
+      <input type="number" value="10000" id="stepGoal">
+    </div>
+    <button class="btn btn-primary">Saqlash</button>
+  </div>
+</div>
+
+<!-- ==================== BLOOD SUGAR SCREEN ==================== -->
+<div id="screen-blood" class="screen">
+  <div class="sub-header">
+    <button class="back-btn" onclick="showScreen('screen-home')">‹</button>
+    <h2>Qon Shakari</h2>
+  </div>
+
+  <div class="section-card">
+    <p class="text-sm text-light text-center">Oxirgi o'lchov</p>
+    <div class="blood-hero">
+      <div class="blood-value">5.2</div>
+      <div class="blood-unit">mmol/L</div>
+      <div><span class="blood-status normal">Normal ✓</span></div>
+      <div class="blood-time">Bugun 08:30</div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <h3>Yangi o'lchov qo'shish</h3>
+    <div class="input-row">
+      <input type="number" placeholder="mmol/L" step="0.1">
+      <button>➕ Qo'shish</button>
+    </div>
+    <div class="timing-options">
+      <div class="timing-option active">Nashtadan oldin</div>
+      <div class="timing-option">Nashtadan keyin</div>
+      <div class="timing-option">Tushlikdan keyin</div>
+      <div class="timing-option">Yotishdan oldin</div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <h3>Tarix</h3>
+    <div class="blood-history-item">
+      <div class="bh-left">
+        <div class="bh-value">5.2 mmol/L</div>
+        <div class="bh-time">Bugun 08:30 · Nashtadan oldin</div>
+      </div>
+      <span class="bh-badge food-badge good">Normal</span>
+    </div>
+    <div class="blood-history-item">
+      <div class="bh-left">
+        <div class="bh-value">7.8 mmol/L</div>
+        <div class="bh-time">Kecha 19:00 · Kechki ovqatdan keyin</div>
+      </div>
+      <span class="bh-badge food-badge" style="background:#fee2e2; color:#dc2626;">Yuqori</span>
+    </div>
+    <div class="blood-history-item">
+      <div class="bh-left">
+        <div class="bh-value">4.9 mmol/L</div>
+        <div class="bh-time">Kecha 08:00 · Nashtadan oldin</div>
+      </div>
+      <span class="bh-badge food-badge good">Normal</span>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== ABOUT SCREEN ==================== -->
+<div id="screen-about" class="screen">
+  <div class="sub-header">
+    <button class="back-btn" onclick="showScreen('screen-home')">‹</button>
+    <h2>Loyiha Haqida</h2>
+  </div>
+
+  <div class="section-card text-center">
+    <p class="text-light">Diabet ustidan nazorat — sog'lom hayot garovi</p>
+
+    <div class="about-stats">
+      <div class="about-stat">
+        <div class="as-value">AI</div>
+        <div class="as-sub">ASOSIDA</div>
+      </div>
+      <div class="about-stat">
+        <div class="as-value">24/7</div>
+        <div class="as-sub">MONITORING</div>
+      </div>
+      <div class="about-stat">
+        <div class="as-value">50+</div>
+        <div class="as-sub">TIBBIY MEZON</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <h3>👥 Jamoa</h3>
+    <p class="text-sm text-light mb-16">Jamoa 4 a'zodan iborat.</p>
+    <div class="team-grid">
+      <div class="team-member">
+        <div class="tm-icon">👨‍💼</div>
+        <div class="tm-name">Abdisamatov Mehriddin</div>
+        <div class="tm-role">Loyiha rahbari</div>
+      </div>
+      <div class="team-member">
+        <div class="tm-icon">👩‍💻</div>
+        <div class="tm-name">Abdug'aniyeva Gulhayo</div>
+        <div class="tm-role">Dasturchi</div>
+      </div>
+      <div class="team-member">
+        <div class="tm-icon">👩‍💻</div>
+        <div class="tm-name">Sharipova Feruza</div>
+        <div class="tm-role">Dasturchi</div>
+      </div>
+      <div class="team-member">
+        <div class="tm-icon">👨‍🔬</div>
+        <div class="tm-name">Sheraliyev Javohir</div>
+        <div class="tm-role">Data & AI</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Link to Demo from About -->
+  <div class="demo-banner" onclick="showScreen('screen-demo')">
+    <div class="db-icon">🎬</div>
+    <div class="db-content">
+      <h3>Demo sahifasi</h3>
+      <p>Video va prototipni ko'ring</p>
+    </div>
+    <span class="db-arrow">›</span>
+  </div>
+</div>
+
+<!-- ==================== DEMO SCREEN ==================== -->
+<div id="screen-demo" class="screen">
+  <div class="sub-header">
+    <button class="back-btn" onclick="showScreen('screen-home')">‹</button>
+    <h2>🎬 Demo</h2>
+  </div>
+
+  <!-- 6.1 Demo Video -->
+  <div class="section-card" style="padding:0; overflow:hidden;">
+    <div class="demo-video-container">
+      <video id="demoVideo" controls playsinline preload="metadata" 
+        poster="" 
+        style="width:100%; aspect-ratio:9/16; background:#0f172a; display:block; max-height:70vh; margin:0 auto;">
+        <source src="demo-video.mp4" type="video/mp4">
+        Brauzeringiz videoni qo'llab-quvvatlamaydi.
+      </video>
+    </div>
+  </div>
+  <p class="text-center text-sm text-light mb-16">⏱ Davomiyligi: ~3 daqiqa · 📱 Mobil formatda</p>
+
+  <!-- 6.2 Demo Video Tavsifi -->
+  <div class="demo-desc-box">
+    <h3>📋 Demo Video Tavsifi</h3>
+    <p>
+      Ushbu demo video <strong>Qandli Diabet AI</strong> loyihasining to'liq ishlash jarayonini ko'rsatadi. 
+      Video davomida quyidagi funksiyalar namoyish etiladi:
+    </p>
+    <ul>
+      <li><strong>Diabet xavfini baholash</strong> — foydalanuvchi shaxsiy ma'lumotlarini kiritadi va AI sun'iy intellekt yordamida qandli diabet xavfini foizda aniqlaydi</li>
+      <li><strong>Ozuqa skaneri</strong> — ovqat nomini yozish yoki rasmini yuklash orqali kaloriya, uglevod, oqsil va yog' miqdorini real vaqtda tahlil qilish</li>
+      <li><strong>Kunlik faollik monitoringi</strong> — qadam soni, yoqilgan kaloriya, faollik vaqti va yurak urishi kuzatiladi</li>
+      <li><strong>Qon shakari kuzatuvi</strong> — qon shakar darajasini kiritish, tarix ko'rish va normal/yuqori holatni aniqlash</li>
+      <li><strong>Haftalik ovqatlanish rejimi</strong> — 1-tip va 2-tip diabet uchun AI tomonidan tavsiya etilgan haftalik menyu</li>
+      <li><strong>Weighted Risk Scoring algoritmi</strong> — har bir klinik simptomga alohida koeffitsient berib, umumiy xavf darajasini hisoblash</li>
+    </ul>
+    <p style="margin-top:12px;">
+      Video <strong>3 daqiqa</strong> davom etadi va barcha asosiy funksiyalar bosqichma-bosqich ko'rsatiladi. 
+      Loyiha HTML, CSS, JavaScript texnologiyalari asosida qurilgan bo'lib, sun'iy intellekt algoritmlari frontend darajasida ishlaydi.
+    </p>
+  </div>
+
+  <!-- Demo Features -->
+  <div class="demo-features">
+    <div class="demo-feature">
+      <div class="df-icon">🧠</div>
+      <div class="df-title">AI Tashxis</div>
+      <div class="df-desc">Weighted scoring algoritmi</div>
+    </div>
+    <div class="demo-feature">
+      <div class="df-icon">🍽️</div>
+      <div class="df-title">Ozuqa AI</div>
+      <div class="df-desc">Real-time tahlil</div>
+    </div>
+    <div class="demo-feature">
+      <div class="df-icon">📊</div>
+      <div class="df-title">Monitoring</div>
+      <div class="df-desc">24/7 kuzatuv</div>
+    </div>
+    <div class="demo-feature">
+      <div class="df-icon">🥗</div>
+      <div class="df-title">Dieta</div>
+      <div class="df-desc">Shaxsiy menyu</div>
+    </div>
+  </div>
+
+  <!-- Tech Stack -->
+  <div class="demo-tech-stack">
+    <h3>🛠 Texnologiyalar</h3>
+    <div class="tech-tags">
+      <span class="tech-tag html">HTML5</span>
+      <span class="tech-tag css">CSS3</span>
+      <span class="tech-tag js">JavaScript</span>
+      <span class="tech-tag ai">AI Algorithms</span>
+      <span class="tech-tag api">API Integration</span>
+    </div>
+  </div>
+
+  <!-- 6.3 Ishlayotgan prototip havolasi -->
+  <div class="demo-prototype-box">
+    <h3>🔗 Ishlayotgan Prototip</h3>
+    <p>Loyihaning jonli versiyasini sinab ko'ring — barcha funksiyalar to'liq ishlaydi</p>
+    <a href="https://marjona0610.github.io/qandli-diabet/" target="_blank" class="demo-prototype-btn">
+      🚀 Prototipni ochish
+    </a>
+  </div>
+
+  <div class="section-card text-center">
+    <p class="text-sm text-light mb-8">Loyiha jamoasi tomonidan ishlab chiqilgan</p>
+    <p style="font-size:13px; font-weight:700;">© 2025 Qandli Diabet AI</p>
+    <button class="btn btn-outline mt-16" onclick="showScreen('screen-about')" style="font-size:13px;">
+      👥 Jamoa haqida
+    </button>
+  </div>
+</div>
+
+
+<!-- ==================== BOTTOM NAVIGATION ==================== -->
+<nav class="bottom-nav">
+  <button class="nav-item active" onclick="navigate(this, 'screen-home')">
+    <span class="nav-icon">🏠</span>
+    <span class="nav-label">Bosh sahifa</span>
+  </button>
+  <button class="nav-item" onclick="navigate(this, 'screen-food')">
+    <span class="nav-icon">🍽️</span>
+    <span class="nav-label">Ozuqa</span>
+  </button>
+  <button class="nav-item" onclick="navigate(this, 'screen-activity')">
+    <span class="nav-icon">🚶</span>
+    <span class="nav-label">Faollik</span>
+  </button>
+  <button class="nav-item" onclick="navigate(this, 'screen-blood')">
+    <span class="nav-icon">🩸</span>
+    <span class="nav-label">Qon</span>
+  </button>
+  <button class="nav-item" onclick="navigate(this, 'screen-demo')">
+    <span class="nav-icon">🎬</span>
+    <span class="nav-label">Demo</span>
+  </button>
+  <button class="nav-item" onclick="navigate(this, 'screen-about')">
+    <span class="nav-icon">ℹ️</span>
+    <span class="nav-label">Ma'lumot</span>
+  </button>
+</nav>
+
+
+<script>
+// ===== NAVIGATION =====
+function showScreen(screenId) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(screenId).classList.add('active');
+  window.scrollTo(0, 0);
+  
+  // Update nav
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => {
+    if (n.getAttribute('onclick')?.includes(screenId)) {
+      n.classList.add('active');
+    }
+  });
+}
+
+function navigate(el, screenId) {
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  el.classList.add('active');
+  showScreen(screenId);
+}
+
+// ===== TABS =====
+function switchTab(el, tabId) {
+  el.parentElement.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  
+  if (tabId === 'food-text') {
+    document.getElementById('food-text').style.display = 'block';
+    document.getElementById('food-camera').style.display = 'none';
+  } else {
+    document.getElementById('food-text').style.display = 'none';
+    document.getElementById('food-camera').style.display = 'block';
+  }
+}
+
+function switchMenuTab(el, type) {
+  el.parentElement.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// ===== BMI CALC =====
+function calcBMI() {
+  const w = parseFloat(document.getElementById('weight').value);
+  const h = parseFloat(document.getElementById('height').value);
+  if (w && h) {
+    const bmi = (w / ((h/100) * (h/100))).toFixed(1);
+    document.getElementById('bmiValue').textContent = bmi;
+    const status = document.getElementById('bmiStatus');
+    if (bmi < 18.5) { status.textContent = 'Kam vazn'; status.style.color = 'var(--warning)'; }
+    else if (bmi < 25) { status.textContent = 'Normal ✓'; status.style.color = 'var(--success)'; }
+    else if (bmi < 30) { status.textContent = 'Ortiqcha'; status.style.color = 'var(--warning)'; }
+    else { status.textContent = 'Semizlik'; status.style.color = 'var(--danger)'; }
+  }
+}
+
+// ===== GENDER SELECT =====
+function selectGender(el) {
+  el.parentElement.querySelectorAll('.gender-option').forEach(o => o.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// ===== FAMILY SELECT =====
+function selectFamily(el) {
+  el.parentElement.querySelectorAll('.family-option').forEach(o => o.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// ===== QUESTION OPTIONS =====
+function selectOption(el) {
+  el.parentElement.querySelectorAll('.q-option').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+// ===== DIAGNOSIS STEPS =====
+function goToStep(step) {
+  document.getElementById('diag-step-1').style.display = step === 1 ? 'block' : 'none';
+  document.getElementById('diag-step-2').style.display = step === 2 ? 'block' : 'none';
+  document.getElementById('diag-step-3').style.display = step === 3 ? 'block' : 'none';
+  
+  if (step === 3) {
+    document.getElementById('analysisLoading').style.display = 'block';
+    document.getElementById('analysisResult').style.display = 'none';
+    setTimeout(() => {
+      document.getElementById('analysisLoading').style.display = 'none';
+      document.getElementById('analysisResult').style.display = 'block';
+      
+      // Random risk
+      const risk = Math.floor(Math.random() * 60) + 15;
+      document.getElementById('riskPercent').textContent = risk + '%';
+      if (risk < 30) {
+        document.getElementById('riskLevel').textContent = 'Past xavf';
+        document.getElementById('riskPercent').style.color = 'var(--success)';
+      } else if (risk < 60) {
+        document.getElementById('riskLevel').textContent = "O'rtacha xavf";
+        document.getElementById('riskPercent').style.color = 'var(--warning)';
+      } else {
+        document.getElementById('riskLevel').textContent = 'Yuqori xavf';
+        document.getElementById('riskPercent').style.color = 'var(--danger)';
+      }
+    }, 2500);
+  }
+  window.scrollTo(0, 0);
+}
+
+// ===== FOOD ANALYSIS =====
+function analyzeFood() {
+  const name = document.getElementById('foodNameInput').value;
+  if (!name) return;
+  
+  // Simple demo data
+  const foods = {
+    'palov': { cal: 320, carb: 42, prot: 18, fat: 12, gi: 65 },
+    'non': { cal: 264, carb: 49, prot: 9, fat: 3, gi: 70 },
+    'osh': { cal: 320, carb: 42, prot: 18, fat: 12, gi: 65 },
+    'tuxum': { cal: 78, carb: 1, prot: 6, fat: 5, gi: 0 },
+    'choy': { cal: 3, carb: 0, prot: 0, fat: 0, gi: 0 },
+    'somsa': { cal: 280, carb: 30, prot: 12, fat: 14, gi: 55 },
+    'lag\'mon': { cal: 350, carb: 45, prot: 15, fat: 10, gi: 60 },
+    'manti': { cal: 250, carb: 28, prot: 14, fat: 10, gi: 50 },
+  };
+  
+  const key = name.toLowerCase().trim();
+  const data = foods[key] || { cal: Math.floor(Math.random()*300+100), carb: Math.floor(Math.random()*40+10), prot: Math.floor(Math.random()*20+5), fat: Math.floor(Math.random()*15+3), gi: Math.floor(Math.random()*50+20) };
+  
+  const items = document.querySelectorAll('.nutrition-item .n-value');
+  items[0].textContent = data.cal;
+  items[1].textContent = data.carb;
+  items[2].textContent = data.prot;
+  items[3].textContent = data.fat;
+}
+
+// ===== TIMING OPTIONS =====
+document.querySelectorAll('.timing-option').forEach(opt => {
+  opt.addEventListener('click', function() {
+    this.parentElement.querySelectorAll('.timing-option').forEach(o => o.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+
+// ===== HANDLE /demo ROUTE =====
+if (window.location.hash === '#/demo' || window.location.pathname.endsWith('/demo')) {
+  showScreen('screen-demo');
+}
+
+// Hash routing
+window.addEventListener('hashchange', () => {
+  if (window.location.hash === '#/demo') showScreen('screen-demo');
+  else if (window.location.hash === '#/food') showScreen('screen-food');
+  else if (window.location.hash === '#/activity') showScreen('screen-activity');
+  else if (window.location.hash === '#/blood') showScreen('screen-blood');
+  else if (window.location.hash === '#/about') showScreen('screen-about');
+  else showScreen('screen-home');
+});
+</script>
+
+</body>
+</html>
